@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import model.StartAndEndPointMode;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
@@ -11,7 +12,7 @@ import view.interfaces.PaintCanvasBase;
 public class MouseClickHandler extends MouseAdapter {
     private  IApplicationState applicationState;
     private PaintCanvasBase paintCanvas;
-    private IShape selectedShape;
+    private List<IShape> selectedShapes;
 
     public MouseClickHandler(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
         this.applicationState = applicationState;
@@ -23,13 +24,12 @@ public class MouseClickHandler extends MouseAdapter {
         Point startPoint = new Point(e.getX(), e.getY());
         applicationState.setStartPoint(startPoint);
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.SELECT) {
-            selectedShape = ShapeSelector.select(startPoint);
-//            ShapeSelector.select(startPoint);
+            selectedShapes = ShapeSelector.select(startPoint);
         }
-        // this will be removed
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
-            selectedShape = ShapeSelector.select(startPoint);
+            ShapeSelector.updateSelectedShape(startPoint);
         }
+
     }
 
     @Override
@@ -43,12 +43,11 @@ public class MouseClickHandler extends MouseAdapter {
         }
 
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
-            if (selectedShape == null) {
-                System.out.println("No shape selected");
+            if (selectedShapes == null || selectedShapes.size() == 0) {
+                System.out.println("No shapes selected");
             }
             else {
-                MoveShape.move(paintCanvas, selectedShape, endPoint);
-//                MoveShape.move(paintCanvas, endPoint);
+                MoveShape.move(paintCanvas, endPoint);
             }
 
         }
