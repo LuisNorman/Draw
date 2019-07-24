@@ -21,7 +21,6 @@ public class ShapeSelector {
             ILocation currentShapeLocation = currentShape.getLocation();
             Point currentShapeStartPoint = currentShapeLocation.getStartPoint();
             Point currentShapeEndPoint = currentShapeLocation.getEndPoint();
-
             if (currentShapeName.equals("Triangle")) {
                 if ((currentShapeStartPoint.getX() + (currentShapeStartPoint.getX() - currentShapeEndPoint.getX()) <= targetPoint.getX()) && (targetPoint.getX() <= currentShapeEndPoint.getX()) && (currentShapeStartPoint.getY() <= targetPoint.getY() && targetPoint.getY() <= currentShapeEndPoint.getY())) {
                     if (selectedShapes.contains(currentShape)){
