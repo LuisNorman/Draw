@@ -2,17 +2,13 @@ package controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import model.StartAndEndPointMode;
 import model.interfaces.IApplicationState;
-import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
-
 
 public class MouseClickHandler extends MouseAdapter {
     private  IApplicationState applicationState;
     private PaintCanvasBase paintCanvas;
-    private List<IShape> selectedShapes;
 
     public MouseClickHandler(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
         this.applicationState = applicationState;
@@ -24,12 +20,11 @@ public class MouseClickHandler extends MouseAdapter {
         Point startPoint = new Point(e.getX(), e.getY());
         applicationState.setStartPoint(startPoint);
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.SELECT) {
-            selectedShapes = ShapeSelector.select(startPoint);
+             SelectShape.select(startPoint);
         }
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
-            ShapeSelector.updateSelectedShape(startPoint);
+            SelectShape.updateSelectedShape(startPoint);
         }
-
     }
 
     @Override
@@ -43,13 +38,7 @@ public class MouseClickHandler extends MouseAdapter {
         }
 
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
-            if (selectedShapes == null || selectedShapes.size() == 0) {
-                System.out.println("No shapes selected");
-            }
-            else {
-                MoveShape.move(paintCanvas, endPoint);
-            }
-
+            MoveShape.move(paintCanvas, endPoint);
         }
     }
 }

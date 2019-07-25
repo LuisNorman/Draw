@@ -9,7 +9,7 @@ import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class Ellipse implements IShape {
+class Ellipse implements IShape {
     private Graphics2D graphics2d;
     private ColorTransform colorTransform;
     private String shapeName;

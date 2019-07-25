@@ -8,7 +8,7 @@ import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 
-public class Rectangle implements IShape {
+class Rectangle implements IShape {
     private Graphics2D graphics2d;
     private ColorTransform colorTransform;
     private String shapeName;
@@ -17,7 +17,7 @@ public class Rectangle implements IShape {
     private Color secondaryColor;
     private ShapeShadingType shapeShadingType;
 
-    public Rectangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
+    Rectangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
         loadGraphics(paintCanvasBase);
         setPrimaryColor(applicationState.getActivePrimaryColor());
         setSecondaryColor(applicationState.getActiveSecondaryColor());

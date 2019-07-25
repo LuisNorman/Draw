@@ -9,13 +9,20 @@ import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-class MoveShape {
+class MoveShape implements ICommand{
 
     static void move(PaintCanvasBase paintCanvasBase, Point newPoint) {
-        List<IShape> selectedShapes = ShapeSelector.getSelectedShapes();
-        IShape selectedShape = ShapeSelector.getSelectedShape();
+        List<IShape> selectedShapes = SelectShape.getSelectedShapes();
+        // Check if there are selected shapes. If not, do nothing.
+        if (selectedShapes == null || selectedShapes.size() == 0) {
+            System.out.println("Unable to move. No shapes selected.");
+            return;
+        }
+        IShape selectedShape = SelectShape.getSelectedShape();
+        // Compute the distance to be moved.
         int deltaX = newPoint.getX() - selectedShape.getLocation().getStartPoint().getX();
         int deltaY = newPoint.getY() - selectedShape.getLocation().getStartPoint().getY();
+        // Loop the selected shapes and grab its properties
         for (IShape targetShape : selectedShapes) {
             String shapeName = targetShape.getShapeName();
             ILocation location = targetShape.getLocation();
@@ -31,7 +38,7 @@ class MoveShape {
             System.out.println("New start point: "+newStartPoint.getX()+", "+newStartPoint.getY());
             System.out.println("New end point: " +newEndPoint.getX()+", "+newEndPoint.getY());
 
-
+            // Remove and recreate the shape.
             switch(shapeName) {
                 case "Triangle" :
                     removeTriangle(paintCanvasBase, startPoint, endPoint);
@@ -51,17 +58,17 @@ class MoveShape {
             ShapeList.updateStartPoint(targetShape, newStartPoint);
             ShapeList.updateEndPoint(targetShape, newEndPoint);
         }
-        ShapeSelector.clearSelectedShapes();
+//        SelectShape.clearSelectedShapes();
     }
 
-    static void removeRectangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint) {
+    private static void removeRectangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint) {
         Graphics2D graphics2d = paintCanvasBase.getGraphics2D();
         graphics2d.setColor(Color.WHITE);
         graphics2d.fillRect(startPoint.getX(), startPoint.getY(), endPoint.getX()-startPoint.getX(), endPoint.getY() - startPoint.getY());
         graphics2d.drawRect(startPoint.getX(), startPoint.getY(), endPoint.getX()-startPoint.getX(), endPoint.getY() - startPoint.getY());
     }
 
-    static void removeEllipse(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint) {
+    private static void removeEllipse(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint) {
         Graphics2D graphics2d = paintCanvasBase.getGraphics2D();
         graphics2d.setColor(Color.WHITE);
         graphics2d.fill(new Ellipse2D.Double(startPoint.getX(), startPoint.getY(), endPoint.getX()-startPoint.getX(), endPoint.getY() - startPoint.getY()));
@@ -69,7 +76,7 @@ class MoveShape {
 
     }
 
-    static void removeTriangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint) {
+    private static void removeTriangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint) {
         Graphics2D graphics2d = paintCanvasBase.getGraphics2D();
         graphics2d.setColor(Color.WHITE);
         int[] x = new int[]{startPoint.getX(), endPoint.getX(), startPoint.getX() + (startPoint.getX() - endPoint.getX())};
@@ -79,7 +86,7 @@ class MoveShape {
         graphics2d.drawPolygon(x, y, n);
     }
 
-    static void recreateRectangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint, IShape shape, Point newPoint) {
+    private static void recreateRectangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint, IShape shape, Point newPoint) {
         Graphics2D graphics2d = paintCanvasBase.getGraphics2D();
         graphics2d.setColor(shape.getPrimaryColor());
         if (shape.getShapeShadingType() == ShapeShadingType.OUTLINE_AND_FILLED_IN) {
@@ -95,7 +102,7 @@ class MoveShape {
         }
     }
 
-    static void recreateEllipse(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint, IShape shape, Point newPoint) {
+    private static void recreateEllipse(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint, IShape shape, Point newPoint) {
         Graphics2D graphics2d = paintCanvasBase.getGraphics2D();
         graphics2d.setColor(shape.getPrimaryColor());
         if (shape.getShapeShadingType() == ShapeShadingType.OUTLINE_AND_FILLED_IN) {
@@ -111,7 +118,7 @@ class MoveShape {
         }
     }
 
-    static void recreateTriangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint, IShape shape, Point newPoint) {
+    private static void recreateTriangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint, IShape shape, Point newPoint) {
         Graphics2D graphics2d = paintCanvasBase.getGraphics2D();
         graphics2d.setColor(shape.getPrimaryColor());
         int n = 3;

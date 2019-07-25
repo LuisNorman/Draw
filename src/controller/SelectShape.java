@@ -7,15 +7,17 @@ import model.persistence.ShapeList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ShapeSelector {
+class SelectShape implements ICommand {
     private static List<IShape> selectedShapes = new LinkedList<>();
     private static IShape selectedShape;
 
-    public static List<IShape> select(Point targetPoint) {
+    static void select(Point targetPoint) {
         boolean found = false;
         boolean shapeSelectedAlready = false;
         List<IShape> shapeList = ShapeList.getShapeList();
         List<IShape> selectedShapes = getSelectedShapes();
+        // Get all shapes and loop to find which one intersects with
+        // the target point and then add it to the selected shapes list.
         for (IShape currentShape : shapeList) {
             String currentShapeName = currentShape.getShapeName();
             ILocation currentShapeLocation = currentShape.getLocation();
@@ -53,16 +55,15 @@ public class ShapeSelector {
             }
         }
         if (!found && !shapeSelectedAlready) {
-            System.out.println("No shape selected.");
+            System.out.println("Could not find shape at current location.");
         }
-        return selectedShapes;
     }
 
-    public static void clearSelectedShapes() {
+    static void clearSelectedShapes() {
         selectedShapes = new LinkedList<>();
     }
 
-    public static void updateSelectedShape(Point targetPoint) {
+    static void updateSelectedShape(Point targetPoint) {
         List<IShape> shapeList = ShapeList.getShapeList();
         for (IShape currentShape : shapeList) {
             String currentShapeName = currentShape.getShapeName();
@@ -83,11 +84,11 @@ public class ShapeSelector {
         }
     }
 
-    public static List<IShape> getSelectedShapes() {
+    static List<IShape> getSelectedShapes() {
         return selectedShapes;
     }
 
-    public static IShape getSelectedShape() {
+    static IShape getSelectedShape() {
         return selectedShape;
     }
 }

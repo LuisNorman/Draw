@@ -8,7 +8,7 @@ import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 
-public class Triangle implements IShape {
+class Triangle implements IShape {
     private Graphics2D graphics2d;
     private ColorTransform colorTransform;
     private String shapeName;
@@ -20,7 +20,7 @@ public class Triangle implements IShape {
     private int[] y;
 
 
-    public Triangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
+    Triangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
         loadGraphics(paintCanvasBase);
         setPrimaryColor(applicationState.getActivePrimaryColor());
         setSecondaryColor(applicationState.getActiveSecondaryColor());
