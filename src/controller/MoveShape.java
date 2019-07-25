@@ -2,14 +2,14 @@ package controller;
 
 import java.util.List;
 import model.ShapeShadingType;
-import model.interfaces.ILocation;
+import model.persistence.Location;
 import model.interfaces.IShape;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-class MoveShape implements ICommand{
+class MoveShape {
 
     static void move(PaintCanvasBase paintCanvasBase, Point newPoint) {
         List<IShape> selectedShapes = SelectShape.getSelectedShapes();
@@ -25,7 +25,7 @@ class MoveShape implements ICommand{
         // Loop the selected shapes and grab its properties
         for (IShape targetShape : selectedShapes) {
             String shapeName = targetShape.getShapeName();
-            ILocation location = targetShape.getLocation();
+            Location location = targetShape.getLocation();
             Point startPoint = location.getStartPoint();
             Point endPoint = location.getEndPoint();
             int width = endPoint.getX()-startPoint.getX();
@@ -58,8 +58,9 @@ class MoveShape implements ICommand{
             ShapeList.updateStartPoint(targetShape, newStartPoint);
             ShapeList.updateEndPoint(targetShape, newEndPoint);
         }
-//        SelectShape.clearSelectedShapes();
     }
+
+    /* These are helper functions to remove & rebuild the shape */
 
     private static void removeRectangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint) {
         Graphics2D graphics2d = paintCanvasBase.getGraphics2D();

@@ -3,16 +3,15 @@ package model.persistence;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.interfaces.IApplicationState;
-import model.interfaces.ILocation;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 
-class Triangle implements IShape {
+public class Triangle implements IShape {
     private Graphics2D graphics2d;
     private ColorTransform colorTransform;
     private String shapeName;
-    private TriangleLocation location;
+    private Location location;
     private Color primaryColor;
     private Color secondaryColor;
     private ShapeShadingType shapeShadingType;
@@ -20,7 +19,7 @@ class Triangle implements IShape {
     private int[] y;
 
 
-    Triangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
+    public Triangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
         loadGraphics(paintCanvasBase);
         setPrimaryColor(applicationState.getActivePrimaryColor());
         setSecondaryColor(applicationState.getActiveSecondaryColor());
@@ -43,11 +42,11 @@ class Triangle implements IShape {
 
     @Override
     public void setLocation(IApplicationState applicationState) {
-        this.location = new TriangleLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
+        this.location = new Location(applicationState.getStartPoint(), applicationState.getEndPoint());
     }
 
     @Override
-    public ILocation getLocation() {
+    public Location getLocation() {
         return location;
     }
 

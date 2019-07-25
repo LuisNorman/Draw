@@ -4,6 +4,7 @@ import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
 
+// Static Factory Method - Create Shapes.
 public class ShapeFactory {
 
     public static IShape createRectangle(IApplicationState applicationState, PaintCanvasBase paintCanvas) {

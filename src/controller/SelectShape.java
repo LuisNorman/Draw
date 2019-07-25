@@ -1,26 +1,26 @@
 package controller;
 
-import model.interfaces.ILocation;
+import model.persistence.Location;
 import model.interfaces.IShape;
 import model.persistence.ShapeList;
-
 import java.util.LinkedList;
 import java.util.List;
 
-class SelectShape implements ICommand {
+class SelectShape {
     private static List<IShape> selectedShapes = new LinkedList<>();
     private static IShape selectedShape;
 
+    // 1. Get all shapes drawn on canvas.
+    // 2. Loop shapes to find which one intersects with the target point.
+    // 3. Once found, add it to the selected shapes list.
     static void select(Point targetPoint) {
         boolean found = false;
         boolean shapeSelectedAlready = false;
         List<IShape> shapeList = ShapeList.getShapeList();
         List<IShape> selectedShapes = getSelectedShapes();
-        // Get all shapes and loop to find which one intersects with
-        // the target point and then add it to the selected shapes list.
         for (IShape currentShape : shapeList) {
             String currentShapeName = currentShape.getShapeName();
-            ILocation currentShapeLocation = currentShape.getLocation();
+            Location currentShapeLocation = currentShape.getLocation();
             Point currentShapeStartPoint = currentShapeLocation.getStartPoint();
             Point currentShapeEndPoint = currentShapeLocation.getEndPoint();
             if (currentShapeName.equals("Triangle")) {
@@ -54,20 +54,29 @@ class SelectShape implements ICommand {
                 }
             }
         }
+        // If nothing found but in select mode, clear the selected shapes list.
         if (!found && !shapeSelectedAlready) {
-            System.out.println("Could not find shape at current location.");
+            clearSelectedShapes();
+            System.out.println("Could not find shape at current location so I am going to follow most apps logic and clear the selected shapes list.");
         }
     }
 
+    // Clears the selected shapes list.
     static void clearSelectedShapes() {
         selectedShapes = new LinkedList<>();
     }
 
+    // Returns all the currently selected shapes.
+    static List<IShape> getSelectedShapes() {
+        return selectedShapes;
+    }
+
+    // Updates the latest selected shape to the shape that intersects with the target point.
     static void updateSelectedShape(Point targetPoint) {
         List<IShape> shapeList = ShapeList.getShapeList();
         for (IShape currentShape : shapeList) {
             String currentShapeName = currentShape.getShapeName();
-            ILocation currentShapeLocation = currentShape.getLocation();
+            Location currentShapeLocation = currentShape.getLocation();
             Point currentShapeStartPoint = currentShapeLocation.getStartPoint();
             Point currentShapeEndPoint = currentShapeLocation.getEndPoint();
 
@@ -84,10 +93,7 @@ class SelectShape implements ICommand {
         }
     }
 
-    static List<IShape> getSelectedShapes() {
-        return selectedShapes;
-    }
-
+    // Returns the  latest selected shape.
     static IShape getSelectedShape() {
         return selectedShape;
     }

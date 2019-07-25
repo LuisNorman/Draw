@@ -3,7 +3,6 @@ package model.persistence;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.interfaces.IApplicationState;
-import model.interfaces.ILocation;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
@@ -12,7 +11,7 @@ class Rectangle implements IShape {
     private Graphics2D graphics2d;
     private ColorTransform colorTransform;
     private String shapeName;
-    private RectangleEllipseLocation location;
+    private Location location;
     private Color primaryColor;
     private Color secondaryColor;
     private ShapeShadingType shapeShadingType;
@@ -64,11 +63,11 @@ class Rectangle implements IShape {
 
     @Override
     public void setLocation(IApplicationState applicationState) {
-        this.location = new RectangleEllipseLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
+        this.location= new Location(applicationState.getStartPoint(), applicationState.getEndPoint());
     }
 
     @Override
-    public ILocation getLocation(){
+    public Location getLocation(){
         return location;
     }
 
