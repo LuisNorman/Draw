@@ -1,15 +1,13 @@
 package model.persistence;
 
-
 import model.interfaces.IShape;
 import controller.Point;
-
 import java.util.List;
 
 public class SelectedShape {
     static IShape selectedShape;
 
-    public static void update(Point targetPoint) {
+    public static void set(Point targetPoint) {
         List<IShape> shapeList = ShapeList.getShapeList();
         for (IShape currentShape : shapeList) {
             String currentShapeName = currentShape.getShapeName();
@@ -28,6 +26,13 @@ public class SelectedShape {
                 }
             }
         }
+    }
+
+    public static void set(IShape shape) {
+        if (shape != null) {
+            selectedShape = shape;
+        }
+
     }
 
     public static IShape get() {

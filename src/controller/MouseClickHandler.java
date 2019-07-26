@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import model.StartAndEndPointMode;
 import model.interfaces.IApplicationState;
+import model.persistence.SelectedShape;
 import view.interfaces.PaintCanvasBase;
 
 public class MouseClickHandler extends MouseAdapter {
@@ -23,7 +24,7 @@ public class MouseClickHandler extends MouseAdapter {
              SelectShape.select(startPoint);
         }
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
-            SelectShape.updateSelectedShape(startPoint);
+            SelectedShape.set(startPoint);
         }
     }
 

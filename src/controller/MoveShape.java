@@ -4,6 +4,8 @@ import java.util.List;
 import model.ShapeShadingType;
 import model.persistence.Location;
 import model.interfaces.IShape;
+import model.persistence.SelectedShape;
+import model.persistence.SelectedShapes;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
@@ -12,13 +14,13 @@ import java.awt.geom.Ellipse2D;
 class MoveShape implements ICommand{
 
     static void move(PaintCanvasBase paintCanvasBase, Point newPoint) {
-        List<IShape> selectedShapes = SelectShape.getSelectedShapes();
+        List<IShape> selectedShapes = SelectedShapes.getAll();
         // Check if there are selected shapes. If not, do nothing.
         if (selectedShapes == null || selectedShapes.size() == 0) {
             System.out.println("Unable to move. No shapes selected.");
             return;
         }
-        IShape selectedShape = SelectShape.getSelectedShape();
+        IShape selectedShape = SelectedShape.get();
         // Compute the distance to be moved.
         int deltaX = newPoint.getX() - selectedShape.getLocation().getStartPoint().getX();
         int deltaY = newPoint.getY() - selectedShape.getLocation().getStartPoint().getY();

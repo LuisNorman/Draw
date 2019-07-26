@@ -11,11 +11,11 @@ public class SelectedShapes {
         selectedShapes.add(shape);
     }
 
-    public List<IShape> getAll() {
+    public static List<IShape> getAll() {
         return selectedShapes;
     }
 
-    public void clear() {
+    public static void clear() {
         selectedShapes = new LinkedList<IShape>();
     }
 
