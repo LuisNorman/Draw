@@ -1,14 +1,14 @@
 package model.persistence;
 
+import controller.ICommand;
 import model.ShapeColor;
-import model.interfaces.ITransform;
 import java.awt.Color;
 import java.util.EnumMap;
 
-public class ColorTransform implements ITransform {
+public class TransformColor implements ICommand {
     private EnumMap<ShapeColor, Color> colorMap;
 
-    public ColorTransform() {
+    public TransformColor() {
         colorMap = new EnumMap<>(ShapeColor.class);
         colorMap.put(ShapeColor.BLACK, Color.BLACK);
         colorMap.put(ShapeColor.BLUE, Color.BLUE);

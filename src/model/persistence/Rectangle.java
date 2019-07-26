@@ -9,7 +9,7 @@ import java.awt.*;
 
 class Rectangle implements IShape {
     private Graphics2D graphics2d;
-    private ColorTransform colorTransform;
+    private TransformColor transformColor;
     private String shapeName;
     private Location location;
     private Color primaryColor;
@@ -73,8 +73,8 @@ class Rectangle implements IShape {
 
     @Override
     public void setPrimaryColor(ShapeColor shapeColor) {
-        this.colorTransform = new ColorTransform();
-        this.primaryColor = colorTransform.transform(shapeColor);
+        this.transformColor = new TransformColor();
+        this.primaryColor = transformColor.transform(shapeColor);
         graphics2d.setColor(primaryColor);
     }
 
@@ -85,7 +85,7 @@ class Rectangle implements IShape {
 
     @Override
     public void setSecondaryColor(ShapeColor shapeColor) {
-        this.secondaryColor = colorTransform.transform(shapeColor);
+        this.secondaryColor = transformColor.transform(shapeColor);
     }
 
     @Override

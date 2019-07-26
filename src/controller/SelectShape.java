@@ -6,7 +6,8 @@ import model.persistence.ShapeList;
 import java.util.LinkedList;
 import java.util.List;
 
-class SelectShape {
+class SelectShape implements ICommand
+{
     private static List<IShape> selectedShapes = new LinkedList<>();
     private static IShape selectedShape;
 

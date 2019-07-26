@@ -1,6 +1,6 @@
 package model.persistence;
 
-import model.interfaces.ILocation;
+
 import model.interfaces.IShape;
 import controller.Point;
 

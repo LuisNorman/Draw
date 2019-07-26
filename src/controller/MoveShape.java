@@ -9,7 +9,7 @@ import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-class MoveShape {
+class MoveShape implements ICommand{
 
     static void move(PaintCanvasBase paintCanvasBase, Point newPoint) {
         List<IShape> selectedShapes = SelectShape.getSelectedShapes();
@@ -60,7 +60,7 @@ class MoveShape {
         }
     }
 
-    /* These are helper functions to remove & rebuild the shape */
+    /* These are helper functions to remove & rebuild the shape. */
 
     private static void removeRectangle(PaintCanvasBase paintCanvasBase, Point startPoint, Point endPoint) {
         Graphics2D graphics2d = paintCanvasBase.getGraphics2D();

@@ -7,7 +7,7 @@ import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 
 
-class DrawShape {
+class DrawShape implements ICommand {
     static void draw(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
         if (Math.abs(applicationState.getEndPoint().getY() - applicationState.getStartPoint().getY()) > 10) {
             switch (applicationState.getActiveShapeType()) {
