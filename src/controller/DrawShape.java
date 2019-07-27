@@ -10,6 +10,7 @@ import view.interfaces.PaintCanvasBase;
 class DrawShape implements ICommand {
     private IApplicationState applicationState;
     private PaintCanvasBase paintCanvas;
+    static final private String commandName = "Draw";
 
     DrawShape(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
         this.applicationState = applicationState;

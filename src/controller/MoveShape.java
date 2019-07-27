@@ -15,6 +15,7 @@ import java.awt.geom.Ellipse2D;
 class MoveShape implements ICommand{
     private PaintCanvasBase paintCanvasBase;
     private Point newPoint;
+    static final private String commandName = "Move";
 
     MoveShape(PaintCanvasBase paintCanvasBase, Point newPoint) {
         this.paintCanvasBase = paintCanvasBase;

@@ -10,6 +10,7 @@ import java.util.List;
 // Command Pattern
 class SelectShape implements ICommand {
     private Point targetPoint;
+    static final private String commandName = "Select";
 
     SelectShape(Point targetPoint) {
         this.targetPoint = targetPoint;
