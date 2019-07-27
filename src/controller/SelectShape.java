@@ -7,12 +7,18 @@ import model.persistence.SelectedShapes;
 import model.persistence.ShapeList;
 import java.util.List;
 
+// Command Pattern
 class SelectShape implements ICommand {
+    private Point targetPoint;
+
+    SelectShape(Point targetPoint) {
+        this.targetPoint = targetPoint;
+    }
 
     // 1. Get all shapes drawn on canvas.
     // 2. Loop shapes to find which one intersects with the target point.
     // 3. Once found, add it to the selected shapes list.
-    static void select(Point targetPoint) {
+    public void execute() {
         boolean found = false;
         boolean shapeSelectedAlready = false;
         List<IShape> shapeList = ShapeList.getShapeList();

@@ -6,9 +6,17 @@ import model.persistence.ShapeFactory;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 
-
+// Command Pattern
 class DrawShape implements ICommand {
-    static void draw(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
+    private IApplicationState applicationState;
+    private PaintCanvasBase paintCanvas;
+
+    DrawShape(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
+        this.applicationState = applicationState;
+        this.paintCanvas = paintCanvas;
+    }
+
+    public void execute() {
         if (Math.abs(applicationState.getEndPoint().getY() - applicationState.getStartPoint().getY()) > 10) {
             switch (applicationState.getActiveShapeType()) {
                 case RECTANGLE:

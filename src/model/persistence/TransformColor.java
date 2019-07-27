@@ -5,7 +5,7 @@ import model.ShapeColor;
 import java.awt.Color;
 import java.util.EnumMap;
 
-public class TransformColor implements ICommand {
+public class TransformColor {
     private EnumMap<ShapeColor, Color> colorMap;
 
     public TransformColor() {
@@ -28,6 +28,5 @@ public class TransformColor implements ICommand {
     public Color transform(ShapeColor color) {
         return colorMap.get(color);
     }
-
 
 }

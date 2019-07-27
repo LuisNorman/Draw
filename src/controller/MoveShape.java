@@ -11,9 +11,17 @@ import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
+// Command Pattern
 class MoveShape implements ICommand{
+    private PaintCanvasBase paintCanvasBase;
+    private Point newPoint;
 
-    static void move(PaintCanvasBase paintCanvasBase, Point newPoint) {
+    MoveShape(PaintCanvasBase paintCanvasBase, Point newPoint) {
+        this.paintCanvasBase = paintCanvasBase;
+        this.newPoint = newPoint;
+    }
+
+    public void execute() {
         List<IShape> selectedShapes = SelectedShapes.getAll();
         // Check if there are selected shapes. If not, do nothing.
         if (selectedShapes == null || selectedShapes.size() == 0) {

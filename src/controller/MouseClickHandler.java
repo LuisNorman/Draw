@@ -7,6 +7,7 @@ import model.interfaces.IApplicationState;
 import model.persistence.SelectedShape;
 import view.interfaces.PaintCanvasBase;
 
+
 public class MouseClickHandler extends MouseAdapter {
     private  IApplicationState applicationState;
     private PaintCanvasBase paintCanvas;
@@ -21,7 +22,8 @@ public class MouseClickHandler extends MouseAdapter {
         Point startPoint = new Point(e.getX(), e.getY());
         applicationState.setStartPoint(startPoint);
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.SELECT) {
-             SelectShape.select(startPoint);
+            ICommand select = new SelectShape(startPoint);
+            select.execute();
         }
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
             SelectedShape.set(startPoint);
@@ -35,11 +37,13 @@ public class MouseClickHandler extends MouseAdapter {
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.DRAW) {
             applicationState.setWidth();
             applicationState.setHeight();
-            DrawShape.draw(applicationState, paintCanvas);
+            ICommand draw = new DrawShape(applicationState, paintCanvas);
+            draw.execute();
         }
 
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
-            MoveShape.move(paintCanvas, endPoint);
+            ICommand move = new MoveShape(paintCanvas, endPoint);
+            move.execute();
         }
     }
 }
