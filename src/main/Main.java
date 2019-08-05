@@ -3,7 +3,6 @@ package main;
 import controller.IJPaintController;
 import controller.JPaintController;
 import model.persistence.ApplicationState;
-import model.persistence.ShapeList;
 import view.gui.Gui;
 import view.gui.GuiWindow;
 import view.gui.PaintCanvas;
@@ -12,23 +11,19 @@ import view.interfaces.PaintCanvasBase;
 import view.interfaces.IUiModule;
 import controller.MouseClickHandler;
 
-import java.awt.*;
-
 public class Main {
+
     public static void main(String[] args){
         PaintCanvasBase paintCanvas = new PaintCanvas();
         IGuiWindow guiWindow = new GuiWindow(paintCanvas);
         IUiModule uiModule = new Gui(guiWindow);
         ApplicationState appState = new ApplicationState(uiModule);
-        IJPaintController controller = new JPaintController(uiModule, appState);
+        IJPaintController controller = new JPaintController(uiModule, appState, paintCanvas);
         controller.setup();
         MouseClickHandler mouseClickHandler = new MouseClickHandler(appState, paintCanvas);
         paintCanvas.addMouseListener(mouseClickHandler);
 
-
-
         // For example purposes only; remove all lines below from your final project.
-
 //        try {
 //            Thread.sleep(500);
 //        } catch (InterruptedException e) {
@@ -50,7 +45,6 @@ public class Main {
 //        graphics2d.setStroke(stroke);
 //        graphics2d.setColor(Color.BLACK);
 //        graphics2d.drawRect(7, 8, 210, 410);
-
 
         // Clears the Canvas
         //paintCanvas.repaint();

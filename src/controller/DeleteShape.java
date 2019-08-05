@@ -2,12 +2,10 @@ package controller;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.io.File;
 import java.util.List;
 import model.interfaces.IShape;
 import model.persistence.Location;
 import model.persistence.SelectedShapes;
-import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 
 public class DeleteShape implements ICommand {
