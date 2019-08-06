@@ -31,7 +31,7 @@ public class PasteCommand implements ICommand {
             Point endPoint = location.getEndPoint();
             int width = endPoint.getX()-startPoint.getX();
             int height = endPoint.getY()-startPoint.getY();
-            Point newStartPoint = getNewStartPoint(startPoint, width, 0);
+            Point newStartPoint = getNewStartPoint(startPoint, width*2+5);
             Point newEndPoint = getNewEndPoint(newStartPoint, width, height);
             switch(shapeName) {
                 case "Triangle" :
@@ -109,12 +109,9 @@ public class PasteCommand implements ICommand {
         }
     }
 
-    private static Point getNewStartPoint(Point startPoint, int deltaX, int deltaY) {
-        System.out.println("deltaX: "+deltaX);
-        System.out.println("deltaY: "+deltaY);
-        System.out.println("startPointY: "+ startPoint.getY());
-        int newStartPoint_X = startPoint.getX()+deltaX;
-        int newStartPoint_Y = startPoint.getY()+deltaY;
+    private static Point getNewStartPoint(Point startPoint, int deltaX) {
+        int newStartPoint_X = startPoint.getX()+deltaX+5;
+        int newStartPoint_Y = startPoint.getY();
         return new Point(newStartPoint_X, newStartPoint_Y);
     }
 

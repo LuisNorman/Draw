@@ -2,17 +2,18 @@ package model.persistence;
 
 import controller.Point;
 import model.interfaces.IShape;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class ShapeList {
-    private static LinkedList<IShape> shapeList = new LinkedList<>();
+    private static ArrayList<IShape> shapeList = new ArrayList<>();
 
     public static void add(IShape shape) {
         shapeList.add(shape);
     }
 
     public static void remove(IShape targetShape) {
-        for (IShape currentShape : shapeList) {
+        for (int i=0; i<shapeList.size(); i++) {
+            IShape currentShape = shapeList.get(i);
             if (currentShape == targetShape) {
                 shapeList.remove(targetShape);
             }
@@ -35,7 +36,7 @@ public class ShapeList {
         }
     }
 
-    public static LinkedList<IShape> getShapeList() {
+    public static ArrayList<IShape> getShapeList() {
         return shapeList;
     }
 
