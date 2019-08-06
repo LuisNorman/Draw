@@ -55,6 +55,9 @@ public class PasteCommand implements ICommand {
                 newShape.setLocation(newStartPoint, newEndPoint);
                 ShapeList.add(newShape);
             }
+            else {
+                throw new NullPointerException("There are no shapes to paste.");
+            }
         }
     }
 
