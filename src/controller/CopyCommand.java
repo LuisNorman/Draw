@@ -2,18 +2,27 @@ package controller;
 
 import model.interfaces.IShape;
 import model.persistence.SelectedShapes;
+import java.util.LinkedList;
 import java.util.List;
+import model.persistence.Rectangle;
 
 public class CopyCommand implements ICommand {
-    private List<IShape> copiedShapes;
+    private static List<IShape> copiedShapes;
+
+    public CopyCommand() {
+        copiedShapes = new LinkedList<>();
+    }
 
     @Override
     public void execute() {
         System.out.println("copying");
-        this.copiedShapes = SelectedShapes.getAll();
+        List<IShape> allShapes = SelectedShapes.getAll();
+        for(IShape shape: allShapes) {
+            copiedShapes.add(new Rectangle(shape));
+        }
     }
 
-    public List<IShape> getCopiedShapes() {
+    public static List<IShape> getCopiedShapes() {
         return copiedShapes;
     }
 }

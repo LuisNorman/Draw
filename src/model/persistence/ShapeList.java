@@ -11,6 +11,14 @@ public class ShapeList {
         shapeList.add(shape);
     }
 
+    public static void remove(IShape targetShape) {
+        for (IShape currentShape : shapeList) {
+            if (currentShape == targetShape) {
+                shapeList.remove(targetShape);
+            }
+        }
+    }
+
     public static void updateStartPoint(IShape targetShape, Point startPoint) {
         for (IShape currentShape : shapeList) {
             if (currentShape == targetShape) {

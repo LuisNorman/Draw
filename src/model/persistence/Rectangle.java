@@ -5,9 +5,12 @@ import model.ShapeShadingType;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import controller.Point;
 
-class Rectangle implements IShape {
+
+public class Rectangle implements IShape {
     private Graphics2D graphics2d;
     private TransformColor transformColor;
     private String shapeName;
@@ -20,10 +23,18 @@ class Rectangle implements IShape {
         loadGraphics(paintCanvasBase);
         setPrimaryColor(applicationState.getActivePrimaryColor());
         setSecondaryColor(applicationState.getActiveSecondaryColor());
-        setLocation(applicationState);
+        setLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
         setShapeName("Rectangle");
         setShapeShadingType(applicationState.getActiveShapeShadingType());
         build(applicationState);
+    }
+
+    public Rectangle(IShape shape) {
+        this.shapeName = shape.getShapeName();
+        this.location = shape.getLocation();
+        this.primaryColor = shape.getPrimaryColor();
+        this.secondaryColor = shape.getSecondaryColor();
+        this.shapeShadingType = shape.getShapeShadingType();
     }
 
     @Override
@@ -62,8 +73,8 @@ class Rectangle implements IShape {
     }
 
     @Override
-    public void setLocation(IApplicationState applicationState) {
-        this.location= new Location(applicationState.getStartPoint(), applicationState.getEndPoint());
+    public void setLocation(Point startPoint, Point endPoint) {
+        this.location= new Location(startPoint, endPoint);
     }
 
     @Override

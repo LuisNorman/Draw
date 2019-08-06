@@ -1,11 +1,13 @@
 package model.persistence;
 
+import controller.Point;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 
 public class Ellipse implements IShape {
@@ -21,10 +23,18 @@ public class Ellipse implements IShape {
         loadGraphics(paintCanvasBase);
         setPrimaryColor(applicationState.getActivePrimaryColor());
         setSecondaryColor(applicationState.getActiveSecondaryColor());
-        setLocation(applicationState);
+        setLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
         setShapeName("Ellipse");
         setShapeShadingType(applicationState.getActiveShapeShadingType());
         build(applicationState);
+    }
+
+    public Ellipse(IShape shape) {
+        this.shapeName = shape.getShapeName();
+        this.location = shape.getLocation();
+        this.primaryColor = shape.getPrimaryColor();
+        this.secondaryColor = shape.getSecondaryColor();
+        this.shapeShadingType = shape.getShapeShadingType();
     }
 
     @Override
@@ -64,8 +74,8 @@ public class Ellipse implements IShape {
 
 
     @Override
-    public void setLocation(IApplicationState applicationState) {
-        this.location = new Location(applicationState.getStartPoint(), applicationState.getEndPoint());
+    public void setLocation(Point startPoint, Point endPoint) {
+        this.location = new Location(startPoint, endPoint);
     }
 
     @Override

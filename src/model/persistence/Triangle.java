@@ -1,11 +1,13 @@
 package model.persistence;
 
+import controller.Point;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Color;
 
 public class Triangle implements IShape {
     private Graphics2D graphics2d;
@@ -18,16 +20,23 @@ public class Triangle implements IShape {
     private int[] x;
     private int[] y;
 
-
     public Triangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
         loadGraphics(paintCanvasBase);
         setPrimaryColor(applicationState.getActivePrimaryColor());
         setSecondaryColor(applicationState.getActiveSecondaryColor());
         setupCoordinates(applicationState.getStartPoint().getX(), applicationState.getEndPoint().getX(), applicationState.getStartPoint().getX() + (applicationState.getStartPoint().getX() - applicationState.getEndPoint().getX()), applicationState.getStartPoint().getY(), applicationState.getEndPoint().getY(), applicationState.getEndPoint().getY());
-        setLocation(applicationState);
+        setLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
         setShapeName("Triangle");
         setShapeShadingType(applicationState.getActiveShapeShadingType());
         build(applicationState);
+    }
+
+    public Triangle(IShape shape) {
+        this.shapeName = shape.getShapeName();
+        this.location = shape.getLocation();
+        this.primaryColor = shape.getPrimaryColor();
+        this.secondaryColor = shape.getSecondaryColor();
+        this.shapeShadingType = shape.getShapeShadingType();
     }
 
     @Override
@@ -41,8 +50,8 @@ public class Triangle implements IShape {
     }
 
     @Override
-    public void setLocation(IApplicationState applicationState) {
-        this.location = new Location(applicationState.getStartPoint(), applicationState.getEndPoint());
+    public void setLocation(Point startPoint, Point endPoint) {
+        this.location = new Location(startPoint, endPoint);
     }
 
     @Override

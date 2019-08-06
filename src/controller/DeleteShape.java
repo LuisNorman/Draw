@@ -1,11 +1,13 @@
 package controller;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.util.List;
 import model.interfaces.IShape;
 import model.persistence.Location;
 import model.persistence.SelectedShapes;
+import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 
 public class DeleteShape implements ICommand {
@@ -24,8 +26,6 @@ public class DeleteShape implements ICommand {
             Location location = shape.getLocation();
             Point startPoint = location.getStartPoint();
             Point endPoint = location.getEndPoint();
-            int width = endPoint.getX()-startPoint.getX();
-            int height = endPoint.getY()-startPoint.getY();
             switch(shapeName) {
                 case "Triangle" :
                     removeTriangle(paintCanvas, startPoint, endPoint);
@@ -39,6 +39,7 @@ public class DeleteShape implements ICommand {
                     removeEllipse(paintCanvas, startPoint, endPoint);
                     break;
             }
+            ShapeList.remove(shape);
         }
     }
 

@@ -3,7 +3,10 @@ package model.interfaces;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import view.interfaces.PaintCanvasBase;
+import controller.Point;
 import java.awt.Color;
+
+
 import model.persistence.Location;
 
 public interface IShape {
@@ -21,7 +24,7 @@ public interface IShape {
     void setShapeShadingType(ShapeShadingType shapeShadingType);
     ShapeShadingType getShapeShadingType();
 
-    void setLocation(IApplicationState applicationState);
+    void setLocation(Point startPoint, Point endPoint);
     Location getLocation();
 
     void loadGraphics(PaintCanvasBase paintCanvasBase);
