@@ -8,11 +8,11 @@ import model.persistence.ShapeList;
 import java.util.List;
 
 // Command Pattern
-class SelectShape implements ICommand {
+class SelectCommand implements ICommand {
     private Point targetPoint;
     static final private String commandName = "Select";
 
-    SelectShape(Point targetPoint) {
+    SelectCommand(Point targetPoint) {
         this.targetPoint = targetPoint;
     }
 

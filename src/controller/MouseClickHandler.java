@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import model.StartAndEndPointMode;
 import model.interfaces.IApplicationState;
 import model.persistence.SelectedShape;
-import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
 
 
@@ -24,7 +23,7 @@ public class MouseClickHandler extends MouseAdapter {
         Point startPoint = new Point(e.getX(), e.getY());
         applicationState.setStartPoint(startPoint);
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.SELECT) {
-            command = new SelectShape(startPoint);
+            command = new SelectCommand(startPoint);
             command.execute();
         }
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
@@ -38,11 +37,11 @@ public class MouseClickHandler extends MouseAdapter {
         Point endPoint = new Point(e.getX(), e.getY());
         applicationState.setEndPoint(endPoint);
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.DRAW) {
-            command = new DrawShape(applicationState, paintCanvas);
+            command = new DrawCommand(applicationState, paintCanvas);
         }
 
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
-            command = new MoveShape(paintCanvas, endPoint);
+            command = new MoveCommand(paintCanvas, endPoint);
         }
         if(command != null) {
             command.execute();

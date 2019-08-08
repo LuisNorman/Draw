@@ -7,12 +7,12 @@ import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 
 // Command Pattern
-class DrawShape implements ICommand {
+class DrawCommand implements ICommand {
     private IApplicationState applicationState;
     private PaintCanvasBase paintCanvas;
     static final private String commandName = "Draw";
 
-    DrawShape(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
+    DrawCommand(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
         this.applicationState = applicationState;
         this.paintCanvas = paintCanvas;
     }

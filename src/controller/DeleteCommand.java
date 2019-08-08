@@ -10,11 +10,11 @@ import model.persistence.SelectedShapes;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 
-public class DeleteShape implements ICommand {
+public class DeleteCommand implements ICommand {
     private List<IShape> selectedShapes;
     private PaintCanvasBase paintCanvas;
 
-    public DeleteShape(PaintCanvasBase paintCanvas) {
+    public DeleteCommand(PaintCanvasBase paintCanvas) {
         this.paintCanvas = paintCanvas;
         selectedShapes = SelectedShapes.getAll();
     }
