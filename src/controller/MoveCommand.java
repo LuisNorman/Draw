@@ -33,10 +33,8 @@ class MoveCommand implements ICommand{
         int deltaY = newPoint.getY() - selectedShape.getLocation().getStartPoint().getY();
         // Loop the selected shapes and grab its properties
         for (IShape shape : selectedShapes) {
-            String shapeName = shape.getShapeName();
-            Location location = shape.getLocation();
-            Point startPoint = location.getStartPoint();
-            Point endPoint = location.getEndPoint();
+            Point startPoint = shape.getLocation().getStartPoint();
+            Point endPoint = shape.getLocation().getEndPoint();
             int width = endPoint.getX()-startPoint.getX();
             int height = endPoint.getY()-startPoint.getY();
             Point newStartPoint = getNewStartPoint(startPoint, deltaX, deltaY);
@@ -49,27 +47,24 @@ class MoveCommand implements ICommand{
             Recreator recreator = new Recreator(paintCanvasBase, newStartPoint, newEndPoint, shape);
             IRecreateStrategy iRecreateStrategy = null;
 
-            switch(shapeName) {
-                case "Triangle" :
+            switch(shape.getShapeType()) {
+                case TRIANGLE:
                     iRemoveStrategy = new RemoveTriangleStrategy();
                     iRecreateStrategy = new RecreateTriangleStrategy();
                     break;
 
-                case "Rectangle" :
+                case RECTANGLE:
                     iRemoveStrategy = new RemoveRectangleStrategy();
                     iRecreateStrategy = new RecreateRectangleStrategy();
                     break;
 
-                case "Ellipse" :
+                case ELLIPSE:
                     iRemoveStrategy = new RemoveEllipseStrategy();
                     iRecreateStrategy = new RecreateEllipseStrategy();
                     break;
             }
-            if (iRemoveStrategy != null && iRecreateStrategy != null) {
-                remover.remove(iRemoveStrategy);
-                recreator.recreate(iRecreateStrategy);
-            }
-
+            remover.remove(iRemoveStrategy);
+            recreator.recreate(iRecreateStrategy);
             ShapeList.updateStartPoint(shape, newStartPoint);
             ShapeList.updateEndPoint(shape, newEndPoint);
         }

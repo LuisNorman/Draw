@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 import model.interfaces.IShape;
-import model.persistence.Location;
 import model.persistence.SelectedShapes;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
@@ -19,23 +18,21 @@ public class DeleteCommand implements ICommand {
     @Override
     public void execute() {
         for (IShape shape : selectedShapes) {
-            String shapeName = shape.getShapeName();
-            Location location = shape.getLocation();
-            Point startPoint = location.getStartPoint();
-            Point endPoint = location.getEndPoint();
+            Point startPoint = shape.getLocation().getStartPoint();
+            Point endPoint = shape.getLocation().getEndPoint();
             Remover remover = new Remover(paintCanvas, startPoint, endPoint);
             IRemoveStrategy iRemoveStrategy = null;
 
-            switch(shapeName) {
-                case "Triangle" :
+            switch(shape.getShapeType()) {
+                case TRIANGLE:
                     iRemoveStrategy = new RemoveTriangleStrategy();
                     break;
 
-                case "Rectangle" :
+                case RECTANGLE:
                     iRemoveStrategy = new RemoveRectangleStrategy();
                     break;
 
-                case "Ellipse" :
+                case ELLIPSE:
                     iRemoveStrategy = new RemoveEllipseStrategy();
                     break;
             }
