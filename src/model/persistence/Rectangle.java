@@ -2,6 +2,7 @@ package model.persistence;
 
 import model.ShapeColor;
 import model.ShapeShadingType;
+import model.ShapeType;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
@@ -18,14 +19,20 @@ public class Rectangle implements IShape {
     private Color primaryColor;
     private Color secondaryColor;
     private ShapeShadingType shapeShadingType;
+    private ShapeType shapeType;
+    private int width;
+    private int height;
 
     Rectangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
         loadGraphics(paintCanvasBase);
         setPrimaryColor(applicationState.getActivePrimaryColor());
         setSecondaryColor(applicationState.getActiveSecondaryColor());
         setLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
+        setShapeType(applicationState.getActiveShapeType());
         setShapeName("Rectangle");
         setShapeShadingType(applicationState.getActiveShapeShadingType());
+        setHeight(applicationState.getHeight());
+        setWidth(applicationState.getWidth());
         build(applicationState);
     }
 
@@ -113,6 +120,38 @@ public class Rectangle implements IShape {
     public ShapeShadingType getShapeShadingType() {
         return shapeShadingType;
     }
+
+    @Override
+    public void setShapeType(ShapeType shapeType) {
+        this.shapeType = shapeType;
+    }
+
+    @Override
+    public ShapeType getShapeType() {
+        return shapeType;
+    }
+
+    @Override
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+
 
 }
 

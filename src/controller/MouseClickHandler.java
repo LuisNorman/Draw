@@ -22,10 +22,10 @@ public class MouseClickHandler extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         Point startPoint = new Point(e.getX(), e.getY());
         applicationState.setStartPoint(startPoint);
-        if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.SELECT) {
-            command = new SelectCommand(startPoint);
-            command.execute();
-        }
+//        if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.SELECT) {
+//            command = new SelectCommand(startPoint);
+//            command.execute();
+//        }
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
             SelectedShape.set(startPoint);
         }
@@ -42,6 +42,9 @@ public class MouseClickHandler extends MouseAdapter {
 
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
             command = new MoveCommand(paintCanvas, endPoint);
+        }
+        if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.SELECT) {
+            command = new SelectCommand(applicationState.getStartPoint(), endPoint);
         }
         if(command != null) {
             command.execute();

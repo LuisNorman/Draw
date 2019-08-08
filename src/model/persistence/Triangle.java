@@ -3,6 +3,7 @@ package model.persistence;
 import controller.Point;
 import model.ShapeColor;
 import model.ShapeShadingType;
+import model.ShapeType;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
@@ -19,6 +20,9 @@ public class Triangle implements IShape {
     private ShapeShadingType shapeShadingType;
     private int[] x;
     private int[] y;
+    private ShapeType shapeType;
+    private int width;
+    private int height;
 
     public Triangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
         loadGraphics(paintCanvasBase);
@@ -28,6 +32,9 @@ public class Triangle implements IShape {
         setLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
         setShapeName("Triangle");
         setShapeShadingType(applicationState.getActiveShapeShadingType());
+        setShapeType(applicationState.getActiveShapeType());
+        setHeight(applicationState.getHeight());
+        setWidth(applicationState.getWidth());
         build(applicationState);
     }
 
@@ -120,6 +127,36 @@ public class Triangle implements IShape {
     @Override
     public String getShapeName() {
         return shapeName;
+    }
+
+    @Override
+    public void setShapeType(ShapeType shapeType) {
+        this.shapeType = shapeType;
+    }
+
+    @Override
+    public ShapeType getShapeType() {
+        return shapeType;
+    }
+
+    @Override
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
     }
 
 }

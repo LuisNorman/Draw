@@ -2,6 +2,7 @@ package model.interfaces;
 
 import model.ShapeColor;
 import model.ShapeShadingType;
+import model.ShapeType;
 import view.interfaces.PaintCanvasBase;
 import controller.Point;
 import java.awt.Color;
@@ -30,4 +31,16 @@ public interface IShape {
     void loadGraphics(PaintCanvasBase paintCanvasBase);
 
     void build(IApplicationState applicationState);
+
+    void setShapeType(ShapeType shapeType);
+
+    ShapeType getShapeType();
+
+    void setWidth(int width);
+
+    int getWidth();
+
+    void setHeight(int height);
+
+    int getHeight();
 }
