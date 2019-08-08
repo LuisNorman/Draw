@@ -1,10 +1,12 @@
 package controller;
 
 import model.interfaces.IShape;
+import model.persistence.Ellipse;
 import model.persistence.SelectedShapes;
 import java.util.LinkedList;
 import java.util.List;
 import model.persistence.Rectangle;
+import model.persistence.Triangle;
 
 public class CopyCommand implements ICommand {
     private static List<IShape> copiedShapes;
@@ -15,10 +17,21 @@ public class CopyCommand implements ICommand {
 
     @Override
     public void execute() {
-        System.out.println("copying");
         List<IShape> allShapes = SelectedShapes.getAll();
         for(IShape shape: allShapes) {
-            copiedShapes.add(new Rectangle(shape));
+            switch(shape.getShapeType()) {
+                case TRIANGLE:
+                    copiedShapes.add(new Triangle(shape));
+                    break;
+
+                case RECTANGLE:
+                    copiedShapes.add(new Rectangle(shape));
+                    break;
+
+                case ELLIPSE:
+                    copiedShapes.add(new Ellipse(shape));
+                    break;
+            }
         }
     }
 

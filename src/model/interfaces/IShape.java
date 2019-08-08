@@ -11,9 +11,6 @@ import java.awt.Color;
 import model.persistence.Location;
 
 public interface IShape {
-    void setShapeName(String shapeName);
-    String getShapeName();
-
     void switchToSecondaryColor();
 
     void setPrimaryColor(ShapeColor shapeColor);

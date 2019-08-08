@@ -13,7 +13,6 @@ import java.awt.Color;
 public class Triangle implements IShape {
     private Graphics2D graphics2d;
     private TransformColor transformColor;
-    private String shapeName;
     private Location location;
     private Color primaryColor;
     private Color secondaryColor;
@@ -30,7 +29,7 @@ public class Triangle implements IShape {
         setSecondaryColor(applicationState.getActiveSecondaryColor());
         setupCoordinates(applicationState.getStartPoint().getX(), applicationState.getEndPoint().getX(), applicationState.getStartPoint().getX() + (applicationState.getStartPoint().getX() - applicationState.getEndPoint().getX()), applicationState.getStartPoint().getY(), applicationState.getEndPoint().getY(), applicationState.getEndPoint().getY());
         setLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
-        setShapeName("Triangle");
+        setShapeType(ShapeType.TRIANGLE);
         setShapeShadingType(applicationState.getActiveShapeShadingType());
         setShapeType(applicationState.getActiveShapeType());
         setHeight(applicationState.getHeight());
@@ -39,11 +38,11 @@ public class Triangle implements IShape {
     }
 
     public Triangle(IShape shape) {
-        this.shapeName = shape.getShapeName();
         this.location = shape.getLocation();
         this.primaryColor = shape.getPrimaryColor();
         this.secondaryColor = shape.getSecondaryColor();
         this.shapeShadingType = shape.getShapeShadingType();
+        this.shapeType = shape.getShapeType();
     }
 
     @Override
@@ -117,16 +116,6 @@ public class Triangle implements IShape {
     private void setupCoordinates(int x1, int x2, int x3, int y1, int y2, int y3) {
         x = new int[]{x1, x2, x3};
         y = new int[]{y1, y2, y3};
-    }
-
-    @Override
-    public void setShapeName(String shapeName) {
-        this.shapeName = shapeName;
-    }
-
-    @Override
-    public String getShapeName() {
-        return shapeName;
     }
 
     @Override

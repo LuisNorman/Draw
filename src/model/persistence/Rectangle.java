@@ -14,7 +14,6 @@ import controller.Point;
 public class Rectangle implements IShape {
     private Graphics2D graphics2d;
     private TransformColor transformColor;
-    private String shapeName;
     private Location location;
     private Color primaryColor;
     private Color secondaryColor;
@@ -28,8 +27,7 @@ public class Rectangle implements IShape {
         setPrimaryColor(applicationState.getActivePrimaryColor());
         setSecondaryColor(applicationState.getActiveSecondaryColor());
         setLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
-        setShapeType(applicationState.getActiveShapeType());
-        setShapeName("Rectangle");
+        setShapeType(ShapeType.RECTANGLE);
         setShapeShadingType(applicationState.getActiveShapeShadingType());
         setHeight(applicationState.getHeight());
         setWidth(applicationState.getWidth());
@@ -37,11 +35,11 @@ public class Rectangle implements IShape {
     }
 
     public Rectangle(IShape shape) {
-        this.shapeName = shape.getShapeName();
         this.location = shape.getLocation();
         this.primaryColor = shape.getPrimaryColor();
         this.secondaryColor = shape.getSecondaryColor();
         this.shapeShadingType = shape.getShapeShadingType();
+        this.shapeType = shape.getShapeType();
     }
 
     @Override
@@ -67,16 +65,6 @@ public class Rectangle implements IShape {
         else if (shapeShadingType == ShapeShadingType.OUTLINE) {
             graphics2d.drawRect(applicationState.getStartPoint().getX(), applicationState.getStartPoint().getY(), applicationState.getWidth(), applicationState.getHeight());
         }
-    }
-
-    @Override
-    public void setShapeName(String shapeName) {
-        this.shapeName = shapeName;
-    }
-
-    @Override
-    public String getShapeName() {
-        return shapeName;
     }
 
     @Override

@@ -14,7 +14,6 @@ import java.awt.geom.Ellipse2D;
 public class Ellipse implements IShape {
     private Graphics2D graphics2d;
     private TransformColor transformColor;
-    private String shapeName;
     private Location location;
     private Color primaryColor;
     private Color secondaryColor;
@@ -28,20 +27,21 @@ public class Ellipse implements IShape {
         setPrimaryColor(applicationState.getActivePrimaryColor());
         setSecondaryColor(applicationState.getActiveSecondaryColor());
         setLocation(applicationState.getStartPoint(), applicationState.getEndPoint());
-        setShapeName("Ellipse");
         setShapeShadingType(applicationState.getActiveShapeShadingType());
-        setShapeType(applicationState.getActiveShapeType());
+        setShapeType(ShapeType.ELLIPSE);
         setHeight(applicationState.getHeight());
         setWidth(applicationState.getWidth());
         build(applicationState);
     }
 
     public Ellipse(IShape shape) {
-        this.shapeName = shape.getShapeName();
         this.location = shape.getLocation();
         this.primaryColor = shape.getPrimaryColor();
         this.secondaryColor = shape.getSecondaryColor();
         this.shapeShadingType = shape.getShapeShadingType();
+        this.height = shape.getHeight();
+        this.width = shape.getWidth();
+        this.shapeType = ShapeType.ELLIPSE;
     }
 
     @Override
@@ -68,17 +68,6 @@ public class Ellipse implements IShape {
             graphics2d.draw(new Ellipse2D.Double(applicationState.getStartPoint().getX(), applicationState.getStartPoint().getY(), applicationState.getWidth(), applicationState.getHeight()));
         }
     }
-
-    @Override
-    public void setShapeName(String shapeName) {
-        this.shapeName = shapeName;
-    }
-
-    @Override
-    public String getShapeName() {
-        return shapeName;
-    }
-
 
     @Override
     public void setLocation(Point startPoint, Point endPoint) {

@@ -10,12 +10,12 @@ import view.interfaces.PaintCanvasBase;
 
 // Command Pattern
 class MoveCommand implements ICommand{
-    private PaintCanvasBase paintCanvasBase;
+    private PaintCanvasBase paintCanvas;
     private Point newPoint;
     static final private String commandName = "Move";
 
-    MoveCommand(PaintCanvasBase paintCanvasBase, Point newPoint) {
-        this.paintCanvasBase = paintCanvasBase;
+    MoveCommand(PaintCanvasBase paintCanvas, Point newPoint) {
+        this.paintCanvas = paintCanvas;
         this.newPoint = newPoint;
     }
 
@@ -41,11 +41,13 @@ class MoveCommand implements ICommand{
             Point newEndPoint = getNewEndPoint(newStartPoint, width, height);
 
             // Remove and recreate shape.
-            Remover remover = new Remover(paintCanvasBase, startPoint, endPoint);
+            Remover remover = new Remover(paintCanvas, startPoint, endPoint);
             IRemoveStrategy iRemoveStrategy = null;
 
-            Recreator recreator = new Recreator(paintCanvasBase, newStartPoint, newEndPoint, shape);
+            Recreator recreator = new Recreator(paintCanvas, newStartPoint, newEndPoint, shape);
             IRecreateStrategy iRecreateStrategy = null;
+
+            System.out.println(shape.getShapeType());
 
             switch(shape.getShapeType()) {
                 case TRIANGLE:

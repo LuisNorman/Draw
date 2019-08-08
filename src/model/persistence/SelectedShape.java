@@ -1,5 +1,6 @@
 package model.persistence;
 
+import model.ShapeType;
 import model.interfaces.IShape;
 import controller.Point;
 import java.util.List;
@@ -10,17 +11,16 @@ public class SelectedShape {
     public static void set(Point targetPoint) {
         List<IShape> shapeList = ShapeList.getShapeList();
         for (IShape currentShape : shapeList) {
-            String currentShapeName = currentShape.getShapeName();
             Location currentShapeLocation = currentShape.getLocation();
             Point currentShapeStartPoint = currentShapeLocation.getStartPoint();
             Point currentShapeEndPoint = currentShapeLocation.getEndPoint();
 
-            if (currentShapeName.equals("Triangle")) {
+            if (currentShape.getShapeType() == ShapeType.TRIANGLE) {
                 if ((currentShapeStartPoint.getX() + (currentShapeStartPoint.getX() - currentShapeEndPoint.getX()) <= targetPoint.getX()) && (targetPoint.getX() <= currentShapeEndPoint.getX()) && (currentShapeStartPoint.getY() <= targetPoint.getY() && targetPoint.getY() <= currentShapeEndPoint.getY())) {
                     selectedShape = currentShape;
                 }
             }
-            else if (currentShapeName.equals("Rectangle") || currentShapeName.equals("Ellipse")){
+            else if (currentShape.getShapeType() == ShapeType.ELLIPSE || currentShape.getShapeType() == ShapeType.RECTANGLE){
                 if ((currentShapeStartPoint.getX() <= targetPoint.getX() && targetPoint.getX() <= currentShapeEndPoint.getX()) && (currentShapeStartPoint.getY() <= targetPoint.getY() && targetPoint.getY() <= currentShapeEndPoint.getY())) {
                     selectedShape = currentShape;
                 }

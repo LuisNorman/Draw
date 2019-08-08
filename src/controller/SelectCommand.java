@@ -43,7 +43,7 @@ class SelectCommand implements ICommand {
                         SelectedShape.set(currentShape);
                         SelectedShapes.add(currentShape);
                         found = true;
-                        System.out.println(currentShape.getShapeName()+" selected.");
+                        System.out.println(currentShape.getShapeType()+" selected.");
                     }
 
             }

@@ -18,21 +18,20 @@ public class OutlineCommand implements ICommand {
     public void execute() {
         List<IShape> selectedShapes = SelectedShapes.getAll();
         for (IShape shape : selectedShapes) {
-            String shapeName = shape.getShapeName();
             Location location = shape.getLocation();
             Point startPoint = location.getStartPoint();
             Point endPoint = location.getEndPoint();
 
-            switch(shapeName) {
-                case "Triangle" :
+            switch(shape.getShapeType()) {
+                case TRIANGLE :
                     outlineTriangle(paintCanvas, startPoint, endPoint, shape);
                     break;
 
-                case "Rectangle" :
+                case RECTANGLE :
                     outlineRectangle(paintCanvas, startPoint, endPoint, shape);
                     break;
 
-                case "Ellipse" :
+                case ELLIPSE :
                     outlineEllipse(paintCanvas, startPoint, endPoint, shape);
                     break;
             }
