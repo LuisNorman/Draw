@@ -4,7 +4,6 @@ import model.interfaces.IShape;
 import model.persistence.*;
 import view.interfaces.PaintCanvasBase;
 import java.awt.Graphics2D;
-import java.awt.BasicStroke;
 import java.awt.geom.Ellipse2D;
 import java.util.List;
 
@@ -42,21 +41,18 @@ public class OutlineCommand implements ICommand {
 
     private static void outlineRectangle(PaintCanvasBase paintCanvas, Point startPoint, Point endPoint, IShape shape) {
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        graphics2d.setStroke(new BasicStroke(5));
         graphics2d.setColor(shape.getSecondaryColor());
         graphics2d.drawRect(startPoint.getX(), startPoint.getY(), endPoint.getX()-startPoint.getX(),endPoint.getY() - startPoint.getY());
     }
 
     private static void outlineEllipse(PaintCanvasBase paintCanvas, Point startPoint, Point endPoint, IShape shape) {
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        graphics2d.setStroke(new BasicStroke(5));
         graphics2d.setColor(shape.getSecondaryColor());
         graphics2d.draw(new Ellipse2D.Double(startPoint.getX(), startPoint.getY(), endPoint.getX()-startPoint.getX(),endPoint.getY() - startPoint.getY()));
     }
 
     private static void outlineTriangle(PaintCanvasBase paintCanvas, Point startPoint, Point endPoint, IShape shape) {
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        graphics2d.setStroke(new BasicStroke(5));
         graphics2d.setColor(shape.getPrimaryColor());
         int n = 3;
         int[] x = new int[]{startPoint.getX(), startPoint.getX()+(endPoint.getX()-startPoint.getX()), startPoint.getX()-(endPoint.getX()-startPoint.getX())};

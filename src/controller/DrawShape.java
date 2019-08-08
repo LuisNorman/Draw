@@ -18,6 +18,8 @@ class DrawShape implements ICommand {
     }
 
     public void execute() {
+        applicationState.setHeight();
+        applicationState.setWidth();
         if (Math.abs(applicationState.getEndPoint().getY() - applicationState.getStartPoint().getY()) > 10) {
             switch (applicationState.getActiveShapeType()) {
                 case RECTANGLE:

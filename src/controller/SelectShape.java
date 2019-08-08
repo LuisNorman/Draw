@@ -24,6 +24,7 @@ class SelectShape implements ICommand {
         boolean shapeSelectedAlready = false;
         List<IShape> shapeList = ShapeList.getShapeList();
         List<IShape> selectedShapes = SelectedShapes.getAll();
+        int i=1;
         for (IShape currentShape : shapeList) {
             String currentShapeName = currentShape.getShapeName();
             Location currentShapeLocation = currentShape.getLocation();
@@ -53,7 +54,6 @@ class SelectShape implements ICommand {
                     else {
                         SelectedShape.set(currentShape);
                         SelectedShapes.add(currentShape);
-//                        selectedShapes.add(currentShape);
                         found = true;
                         System.out.println(currentShapeName+" selected.");
                         break;

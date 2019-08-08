@@ -5,12 +5,14 @@ import java.awt.event.MouseEvent;
 import model.StartAndEndPointMode;
 import model.interfaces.IApplicationState;
 import model.persistence.SelectedShape;
+import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
 
 
 public class MouseClickHandler extends MouseAdapter {
     private  IApplicationState applicationState;
     private PaintCanvasBase paintCanvas;
+    private ICommand command;
 
     public MouseClickHandler(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
         this.applicationState = applicationState;
@@ -22,8 +24,8 @@ public class MouseClickHandler extends MouseAdapter {
         Point startPoint = new Point(e.getX(), e.getY());
         applicationState.setStartPoint(startPoint);
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.SELECT) {
-            ICommand select = new SelectShape(startPoint);
-            select.execute();
+            command = new SelectShape(startPoint);
+            command.execute();
         }
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
             SelectedShape.set(startPoint);
@@ -32,18 +34,18 @@ public class MouseClickHandler extends MouseAdapter {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        command = null;
         Point endPoint = new Point(e.getX(), e.getY());
         applicationState.setEndPoint(endPoint);
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.DRAW) {
-            applicationState.setWidth();
-            applicationState.setHeight();
-            ICommand draw = new DrawShape(applicationState, paintCanvas);
-            draw.execute();
+            command = new DrawShape(applicationState, paintCanvas);
         }
 
         if (applicationState.getActiveStartAndEndPointMode() == StartAndEndPointMode.MOVE) {
-            ICommand move = new MoveShape(paintCanvas, endPoint);
-            move.execute();
+            command = new MoveShape(paintCanvas, endPoint);
+        }
+        if(command != null) {
+            command.execute();
         }
     }
 }
