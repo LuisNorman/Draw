@@ -21,42 +21,25 @@ public class OutlineCommand implements ICommand {
             Location location = shape.getLocation();
             Point startPoint = location.getStartPoint();
             Point endPoint = location.getEndPoint();
-
+            Outliner outliner = new Outliner(paintCanvas, startPoint, endPoint, shape);
+            IOutlineStrategy iOutlineStrategy = null;
             switch(shape.getShapeType()) {
                 case TRIANGLE :
-                    outlineTriangle(paintCanvas, startPoint, endPoint, shape);
+                    iOutlineStrategy = new OutlineTriangleStrategy();
                     break;
 
                 case RECTANGLE :
-                    outlineRectangle(paintCanvas, startPoint, endPoint, shape);
+                    iOutlineStrategy = new OutlineRectangleStrategy();
                     break;
 
                 case ELLIPSE :
-                    outlineEllipse(paintCanvas, startPoint, endPoint, shape);
+                    iOutlineStrategy = new OutlineEllipseStrategy();
                     break;
             }
+            outliner.outline(iOutlineStrategy);
         }
     }
 
-    private static void outlineRectangle(PaintCanvasBase paintCanvas, Point startPoint, Point endPoint, IShape shape) {
-        Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        graphics2d.setColor(shape.getSecondaryColor());
-        graphics2d.drawRect(startPoint.getX(), startPoint.getY(), endPoint.getX()-startPoint.getX(),endPoint.getY() - startPoint.getY());
-    }
 
-    private static void outlineEllipse(PaintCanvasBase paintCanvas, Point startPoint, Point endPoint, IShape shape) {
-        Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        graphics2d.setColor(shape.getSecondaryColor());
-        graphics2d.draw(new Ellipse2D.Double(startPoint.getX(), startPoint.getY(), endPoint.getX()-startPoint.getX(),endPoint.getY() - startPoint.getY()));
-    }
-
-    private static void outlineTriangle(PaintCanvasBase paintCanvas, Point startPoint, Point endPoint, IShape shape) {
-        Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        graphics2d.setColor(shape.getPrimaryColor());
-        int n = 3;
-        int[] x = new int[]{startPoint.getX(), startPoint.getX()+(endPoint.getX()-startPoint.getX()), startPoint.getX()-(endPoint.getX()-startPoint.getX())};
-        int[] y = new int[]{startPoint.getY(), startPoint.getY()+(endPoint.getY()-startPoint.getY()), startPoint.getY()+(endPoint.getY()-startPoint.getY())};
-        graphics2d.drawPolygon(x, y, n);
-    }
 
 }

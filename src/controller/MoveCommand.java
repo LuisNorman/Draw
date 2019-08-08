@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.List;
-import model.persistence.Location;
 import model.interfaces.IShape;
 import model.persistence.SelectedShape;
 import model.persistence.SelectedShapes;
