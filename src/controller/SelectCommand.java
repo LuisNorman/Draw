@@ -66,7 +66,6 @@ class SelectCommand implements ICommand {
 
     // NOT BEING UTILIZED - THIS IS FOR SINGLE/PRECISE SELECTS
 
-
 //import model.ShapeType;
 //import model.persistence.Location;
 
