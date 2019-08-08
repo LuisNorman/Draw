@@ -27,25 +27,24 @@ class SelectCommand implements ICommand {
         boolean shapeSelectedAlready = false;
         List<IShape> shapeList = ShapeList.getShapeList();
         List<IShape> selectedShapes = SelectedShapes.getAll();
-        int i=1;
         for (IShape currentShape : shapeList) {
             Point currentShapeStartPoint = currentShape.getLocation().getStartPoint();
+            // This allows only selection that start from top left and goes right & down.
             if (startPoint.getX() < currentShapeStartPoint.getX() + currentShape.getWidth() &&
                     startPoint.getX() + width > currentShapeStartPoint.getX() &&
                     startPoint.getY() < currentShapeStartPoint.getY() + currentShape.getHeight() &&
                     startPoint.getY() + height > currentShapeStartPoint.getY()) {
 
                 if (selectedShapes.contains(currentShape)){
-                        shapeSelectedAlready = true;
-                        System.out.println("Shape selected already.");
-                    }
-                    else {
-                        SelectedShape.set(currentShape);
-                        SelectedShapes.add(currentShape);
-                        found = true;
-                        System.out.println(currentShape.getShapeType()+" selected.");
-                    }
-
+                    shapeSelectedAlready = true;
+                    System.out.println("Shape selected already.");
+                }
+                else {
+                    SelectedShape.set(currentShape);
+                    SelectedShapes.add(currentShape);
+                    found = true;
+                    System.out.println(currentShape.getShapeType()+" selected.");
+                }
             }
         }
         // If nothing found but in select mode, clear the selected shapes list.

@@ -2,14 +2,11 @@ package controller;
 
 import model.persistence.Triangle;
 import model.persistence.Ellipse;
-import model.ShapeShadingType;
 import model.interfaces.IShape;
 import model.persistence.Rectangle;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 import java.util.List;
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
 
 public class PasteCommand implements ICommand {
     private final PaintCanvasBase paintCanvas;
@@ -30,7 +27,6 @@ public class PasteCommand implements ICommand {
             int height = endPoint.getY()-startPoint.getY();
             Point newStartPoint = getNewStartPoint(startPoint, width*2+5);
             Point newEndPoint = getNewEndPoint(newStartPoint, width, height);
-
             Recreator recreator = new Recreator(paintCanvas, newStartPoint, newEndPoint, shape);
             IRecreateStrategy iRecreateStrategy = null;
 
@@ -56,7 +52,6 @@ public class PasteCommand implements ICommand {
             shape.setLocation(newStartPoint, newEndPoint);
             newShape.setLocation(newStartPoint, newEndPoint);
             ShapeList.add(newShape);
-
         }
     }
 

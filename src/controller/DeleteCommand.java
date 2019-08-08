@@ -38,6 +38,9 @@ public class DeleteCommand implements ICommand {
             }
             remover.remove(iRemoveStrategy);
             ShapeList.remove(shape);
+            // Not sure if I should delete the shape from the selected shapes list
+            // whenever an item is deleted from shape list.
+//            SelectedShapes.remove(shape);
         }
     }
 
