@@ -16,6 +16,16 @@ class SelectCommand implements ICommand {
     private int height;
 
     SelectCommand(Point startPoint, Point endPoint) {
+        if (startPoint.getX() > endPoint.getX()) {
+            int temp = startPoint.getX();
+            startPoint.setX(endPoint.getX());
+            endPoint.setX(temp);
+        }
+        if (startPoint.getY() > endPoint.getY()) {
+            int temp = startPoint.getY();
+            startPoint.setY(endPoint.getY());
+            endPoint.setY(temp);
+        }
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.width = calculateWidth(startPoint, endPoint);
@@ -29,7 +39,6 @@ class SelectCommand implements ICommand {
         List<IShape> selectedShapes = SelectedShapes.getAll();
         for (IShape currentShape : shapeList) {
             Point currentShapeStartPoint = currentShape.getLocation().getStartPoint();
-            // This allows only selection that start from top left and goes right & down.
             if (startPoint.getX() < currentShapeStartPoint.getX() + currentShape.getWidth() &&
                     startPoint.getX() + width > currentShapeStartPoint.getX() &&
                     startPoint.getY() < currentShapeStartPoint.getY() + currentShape.getHeight() &&
