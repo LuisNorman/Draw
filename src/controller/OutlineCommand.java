@@ -1,6 +1,7 @@
 package controller;
 
 import model.ShapeShadingType;
+import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
 import model.persistence.*;
 import view.interfaces.PaintCanvasBase;
@@ -8,9 +9,11 @@ import java.util.List;
 
 public class OutlineCommand implements ICommand {
     private final PaintCanvasBase paintCanvas;
+    private final IApplicationState applicationState;
 
-    public OutlineCommand(PaintCanvasBase paintCanvas) {
+    public OutlineCommand(PaintCanvasBase paintCanvas, IApplicationState applicationState) {
         this.paintCanvas = paintCanvas;
+        this.applicationState = applicationState;
     }
 
     @Override
@@ -18,13 +21,10 @@ public class OutlineCommand implements ICommand {
         List<IShape> selectedShapes = SelectedShapes.getAll();
         List<IShape> shapeList = ShapeList.getShapeList();
         for (IShape shape : selectedShapes) {
-            if (shapeList.contains(shape)) {
-
-            }
             IShape iShape = null;
             Point startPoint = shape.getLocation().getStartPoint();
             Point endPoint = shape.getLocation().getEndPoint();
-            Outliner outliner = new Outliner(paintCanvas, startPoint, endPoint, shape);
+            Outliner outliner = new Outliner(paintCanvas, startPoint, endPoint, shape, applicationState);
             IOutlineStrategy iOutlineStrategy = null;
             switch(shape.getShapeType()) {
                 case TRIANGLE :
