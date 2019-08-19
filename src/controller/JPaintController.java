@@ -1,6 +1,8 @@
 package controller;
 
 import model.interfaces.IApplicationState;
+import model.interfaces.IShape;
+import model.persistence.SelectedShapes;
 import view.EventName;
 import view.interfaces.IUiModule;
 import view.interfaces.PaintCanvasBase;
@@ -31,5 +33,7 @@ public class JPaintController implements IJPaintController {
         uiModule.addEvent(EventName.COPY, () -> new CopyCommand().execute());
         uiModule.addEvent(EventName.PASTE, () -> new PasteCommand(paintCanvas).execute());
         uiModule.addEvent(EventName.OUTLINE, () -> new OutlineCommand(paintCanvas, applicationState).execute());
+        uiModule.addEvent(EventName.GROUP, () -> new GroupCommand().execute());
+        uiModule.addEvent(EventName.UNGROUP, () -> new UngroupCommand().execute());
     }
 }

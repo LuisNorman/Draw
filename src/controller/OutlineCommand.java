@@ -19,6 +19,7 @@ public class OutlineCommand implements ICommand {
     @Override
     public void execute() {
         List<IShape> selectedShapes = SelectedShapes.getAll();
+        addShapesInGroup(selectedShapes);
         List<IShape> shapeList = ShapeList.getShapeList();
         for (IShape shape : selectedShapes) {
             IShape iShape = null;
@@ -57,6 +58,24 @@ public class OutlineCommand implements ICommand {
         }
     }
 
-
+    // Checks if a shape is apart of a group
+    // If so, it will add the grouped shapes to the selected list.
+    private static void addShapesInGroup(List<IShape> selectedShapes) {
+        int size = selectedShapes.size();
+        List<IShape> tempShapes = selectedShapes;
+        for (int i=0; i<size; i++) {
+            IShape currentShape = tempShapes.get(i);
+            for (ShapeGroup group: Groups.getGroups()) {
+                if (group.contains(currentShape)) {
+                    List<IShape> shapeGroup = group.getShapeGroup();
+                    for (IShape shape: shapeGroup) {
+                        if (!selectedShapes.contains(shape)) {
+                            selectedShapes.add(shape);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }

@@ -1,12 +1,13 @@
 package controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
 // State pattern
 public class CommandHistory {
-    List<ICommand> commandList;
+    static List<ICommand> commandList = new LinkedList<>();
 
-    public void add(ICommand command) {
+    public static void add(ICommand command) {
         commandList.add(command);
     }
 

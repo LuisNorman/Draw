@@ -1,9 +1,8 @@
 package controller;
 
 import model.interfaces.IShape;
-import model.persistence.SelectedShape;
-import model.persistence.SelectedShapes;
-import model.persistence.ShapeList;
+import model.persistence.*;
+
 import java.util.List;
 
 // Command Pattern
@@ -44,13 +43,29 @@ class SelectCommand implements ICommand {
                     startPoint.getY() < currentShapeStartPoint.getY() + currentShape.getHeight() &&
                     startPoint.getY() + height > currentShapeStartPoint.getY()) {
 
+                // Maybe keep this logic inside selected shapes
                 if (selectedShapes.contains(currentShape)){
                     shapeSelectedAlready = true;
                     System.out.println("Shape selected already.");
                 }
                 else {
-                    SelectedShape.set(currentShape);
+//                    boolean addedGroup = false;
+//                    // check if shape is in a group
+//                    // if it is in a group then add all other shapes to selectedShapes
+//                    List<ShapeGroup> groups = Groups.getGroups();
+//                    for (int i=0; i<groups.size(); i++) {
+//                        ShapeGroup currentGroup = groups.get(i);
+//                        if (currentGroup.contains(currentShape)) {
+//                            SelectedShapes.addAll(currentGroup.getShapeGroup());
+//                            addedGroup = true;
+//                            break;
+//                        }
+//                    }
+//                    if (!addedGroup) {
+//                        SelectedShapes.add(currentShape);
+//                    }
                     SelectedShapes.add(currentShape);
+                    SelectedShape.set(currentShape);
                     found = true;
                     System.out.println(currentShape.getShapeType()+" selected.");
                 }

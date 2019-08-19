@@ -2,9 +2,7 @@ package controller;
 
 import java.util.List;
 import model.interfaces.IShape;
-import model.persistence.SelectedShape;
-import model.persistence.SelectedShapes;
-import model.persistence.ShapeList;
+import model.persistence.*;
 import view.interfaces.PaintCanvasBase;
 
 // Command Pattern
@@ -26,8 +24,13 @@ class MoveCommand implements ICommand{
             System.out.println("Unable to move. No shapes selected.");
             return;
         }
-        IShape selectedShape = SelectedShape.get();
+
+        // Check if selected shapes are in group
+        // If they are, move them as well.
+        addShapesInGroup(selectedShapes);
+
         // Compute the distance to be moved.
+        IShape selectedShape = SelectedShape.get();
         int deltaX = newPoint.getX() - selectedShape.getLocation().getStartPoint().getX();
         int deltaY = newPoint.getY() - selectedShape.getLocation().getStartPoint().getY();
         // Loop the selected shapes and grab its properties
@@ -85,4 +88,23 @@ class MoveCommand implements ICommand{
         return new Point(newEndPoint_X, newEndPoint_Y);
     }
 
+    // Checks if a shape is apart of a group
+    // If so, it will add the grouped shapes to the selected list.
+    private static void addShapesInGroup(List<IShape> selectedShapes) {
+        int size = selectedShapes.size();
+        List<IShape> tempShapes = selectedShapes;
+        for (int i=0; i<size; i++) {
+            IShape currentShape = tempShapes.get(i);
+            for (ShapeGroup group: Groups.getGroups()) {
+                if (group.contains(currentShape)) {
+                    List<IShape> shapeGroup = group.getShapeGroup();
+                    for (IShape shape: shapeGroup) {
+                        if (!selectedShapes.contains(shape)) {
+                            selectedShapes.add(shape);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

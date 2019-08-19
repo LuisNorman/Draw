@@ -41,6 +41,7 @@ public class MouseClickHandler extends MouseAdapter {
                 break;
         }
         command.execute();
+        CommandHistory.add(command);
     }
 }
 
