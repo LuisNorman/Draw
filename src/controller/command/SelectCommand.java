@@ -1,12 +1,15 @@
-package controller;
+package controller.command;
 
+import controller.Point;
+import controller.command.ICommand;
 import model.interfaces.IShape;
 import model.persistence.*;
 
 import java.util.List;
 
 // Command Pattern
-class SelectCommand implements ICommand {
+// Select the shapes within the invisible box
+public class SelectCommand implements ICommand {
 
     static final private String commandName = "Select";
     private Point startPoint;
@@ -14,7 +17,7 @@ class SelectCommand implements ICommand {
     private int width;
     private int height;
 
-    SelectCommand(Point startPoint, Point endPoint) {
+    public SelectCommand(Point startPoint, Point endPoint) {
         if (startPoint.getX() > endPoint.getX()) {
             int temp = startPoint.getX();
             startPoint.setX(endPoint.getX());
@@ -49,21 +52,6 @@ class SelectCommand implements ICommand {
                     System.out.println("Shape selected already.");
                 }
                 else {
-//                    boolean addedGroup = false;
-//                    // check if shape is in a group
-//                    // if it is in a group then add all other shapes to selectedShapes
-//                    List<ShapeGroup> groups = Groups.getGroups();
-//                    for (int i=0; i<groups.size(); i++) {
-//                        ShapeGroup currentGroup = groups.get(i);
-//                        if (currentGroup.contains(currentShape)) {
-//                            SelectedShapes.addAll(currentGroup.getShapeGroup());
-//                            addedGroup = true;
-//                            break;
-//                        }
-//                    }
-//                    if (!addedGroup) {
-//                        SelectedShapes.add(currentShape);
-//                    }
                     SelectedShapes.add(currentShape);
                     SelectedShape.set(currentShape);
                     found = true;

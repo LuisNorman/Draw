@@ -1,6 +1,8 @@
-package controller;
+package controller.command;
 
 import java.util.List;
+
+import controller.*;
 import model.interfaces.IShape;
 import model.persistence.ShapeGroup;
 import model.persistence.Groups;

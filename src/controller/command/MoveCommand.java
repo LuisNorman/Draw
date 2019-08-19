@@ -1,17 +1,19 @@
-package controller;
+package controller.command;
 
 import java.util.List;
+
+import controller.*;
 import model.interfaces.IShape;
 import model.persistence.*;
 import view.interfaces.PaintCanvasBase;
 
 // Command Pattern
-class MoveCommand implements ICommand{
+public class MoveCommand implements ICommand {
     private PaintCanvasBase paintCanvas;
     private Point newPoint;
     static final private String commandName = "Move";
 
-    MoveCommand(PaintCanvasBase paintCanvas, Point newPoint) {
+    public MoveCommand(PaintCanvasBase paintCanvas, Point newPoint) {
         this.paintCanvas = paintCanvas;
         this.newPoint = newPoint;
     }
@@ -49,7 +51,7 @@ class MoveCommand implements ICommand{
             Recreator recreator = new Recreator(paintCanvas, newStartPoint, newEndPoint, shape);
             IRecreateStrategy iRecreateStrategy = null;
 
-            System.out.println(shape.getShapeType());
+            System.out.println("Moving "+shape.getShapeType());
 
             switch(shape.getShapeType()) {
                 case TRIANGLE:

@@ -1,5 +1,7 @@
 package controller;
 
+import controller.command.ICommand;
+
 public class NullCommand implements ICommand {
     @Override
     public void execute() {

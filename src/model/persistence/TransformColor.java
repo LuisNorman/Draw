@@ -1,6 +1,5 @@
 package model.persistence;
 
-import controller.ICommand;
 import model.ShapeColor;
 import java.awt.Color;
 import java.util.EnumMap;

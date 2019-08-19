@@ -1,8 +1,7 @@
 package controller;
 
+import controller.command.*;
 import model.interfaces.IApplicationState;
-import model.interfaces.IShape;
-import model.persistence.SelectedShapes;
 import view.EventName;
 import view.interfaces.IUiModule;
 import view.interfaces.PaintCanvasBase;

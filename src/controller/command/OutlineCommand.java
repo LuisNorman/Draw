@@ -1,5 +1,7 @@
-package controller;
+package controller.command;
 
+import controller.*;
+import controller.command.ICommand;
 import model.ShapeShadingType;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;

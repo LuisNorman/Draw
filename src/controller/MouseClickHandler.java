@@ -2,6 +2,11 @@ package controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import controller.command.DrawCommand;
+import controller.command.ICommand;
+import controller.command.MoveCommand;
+import controller.command.SelectCommand;
 import model.interfaces.IApplicationState;
 import model.persistence.SelectedShape;
 import view.interfaces.PaintCanvasBase;

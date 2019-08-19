@@ -3,6 +3,7 @@ package model.persistence;
 import java.util.LinkedList;
 import java.util.List;
 
+// Groups: Holds all shape groups
 public class Groups {
     static List<ShapeGroup> groups = new LinkedList<>();
 

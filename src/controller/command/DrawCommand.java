@@ -1,4 +1,4 @@
-package controller;
+package controller.command;
 
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
@@ -7,12 +7,12 @@ import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 
 // Command Pattern
-class DrawCommand implements ICommand {
+public class DrawCommand implements ICommand {
     private IApplicationState applicationState;
     private PaintCanvasBase paintCanvas;
     static final private String commandName = "Draw";
 
-    DrawCommand(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
+    public DrawCommand(IApplicationState applicationState, PaintCanvasBase paintCanvas) {
         this.applicationState = applicationState;
         this.paintCanvas = paintCanvas;
     }

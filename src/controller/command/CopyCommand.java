@@ -1,4 +1,4 @@
-package controller;
+package controller.command;
 
 import model.interfaces.IShape;
 import model.persistence.*;

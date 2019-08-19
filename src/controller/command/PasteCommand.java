@@ -1,5 +1,6 @@
-package controller;
+package controller.command;
 
+import controller.*;
 import model.persistence.Triangle;
 import model.persistence.Ellipse;
 import model.interfaces.IShape;
