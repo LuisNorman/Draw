@@ -26,6 +26,8 @@ public class UndoCommand implements ICommand {
         while (lastCommand.getCommandName().equals("Select")) {
             lastCommand = CommandHistory.getLatestCommand();
         }
+
+        // Initialize delete command to be shared
         DeleteCommand deleteCommand = null;
 
         switch(lastCommand.getCommandName()) {
@@ -33,8 +35,8 @@ public class UndoCommand implements ICommand {
                 System.out.println("Undoing draw");
                 // Add this (DrawCommand) to Redo Command History
                 DrawCommand mostRecentDrawCommand = (DrawCommand)lastCommand;
-                IShape shape = mostRecentDrawCommand.getShape();
-                deleteCommand = new DeleteCommand(paintCanvas, shape);
+                List<IShape> shapes = mostRecentDrawCommand.getDrawnShapes();
+                deleteCommand = new DeleteCommand(paintCanvas, shapes);
                 UndoCommandHistory.add(deleteCommand);
                 deleteCommand.execute();
                 break;
@@ -89,26 +91,39 @@ public class UndoCommand implements ICommand {
                 DeleteCommand mostRecentDeleteCommand = (DeleteCommand)lastCommand;
                 // Get deleted shapes.
                 List<IShape> deletedShapes = mostRecentDeleteCommand.getDeletedShapes();
+                DrawCommand drawCommand = new DrawCommand(paintCanvas, deletedShapes);
+                UndoCommandHistory.add(drawCommand);
+                drawCommand.execute();
+
+//                for (IShape currentDeletedShape: deletedShapes) {
+//                    System.out.println("Redrawing "+currentDeletedShape.getApplicationState().getActiveShapeType());
+//                    DrawCommand drawCommand = new DrawCommand(currentDeletedShape.getApplicationState(), paintCanvas);
+//                    UndoCommandHistory.add(drawCommand);
+//                    drawCommand.execute();
+//                }
+
+
+
                 // Now redraw the deleted shapes
-                for(IShape currentDeletedShape: deletedShapes) {
-                    Recreator recreator = new Recreator(paintCanvas, currentDeletedShape);
-                    IRecreateStrategy iRecreateStrategy = null;
-                    switch(currentDeletedShape.getShapeType()) {
-                        case TRIANGLE :
-                            iRecreateStrategy = new RecreateTriangleStrategy();
-                            break;
-
-                        case RECTANGLE :
-                            iRecreateStrategy = new RecreateRectangleStrategy();
-                            break;
-
-                        case ELLIPSE :
-                            iRecreateStrategy = new RecreateEllipseStrategy();
-                            break;
-                    }
-                    recreator.recreate(iRecreateStrategy);
-                    ShapeList.add(currentDeletedShape);
-                }
+//                for(IShape currentDeletedShape: deletedShapes) {
+//                    Recreator recreator = new Recreator(paintCanvas, currentDeletedShape);
+//                    IRecreateStrategy iRecreateStrategy = null;
+//                    switch(currentDeletedShape.getShapeType()) {
+//                        case TRIANGLE :
+//                            iRecreateStrategy = new RecreateTriangleStrategy();
+//                            break;
+//
+//                        case RECTANGLE :
+//                            iRecreateStrategy = new RecreateRectangleStrategy();
+//                            break;
+//
+//                        case ELLIPSE :
+//                            iRecreateStrategy = new RecreateEllipseStrategy();
+//                            break;
+//                    }
+//                    recreator.recreate(iRecreateStrategy);
+//                    ShapeList.add(currentDeletedShape);
+//                }
                 break;
 
             default:

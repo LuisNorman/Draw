@@ -26,18 +26,20 @@ public class GroupCommand implements ICommand {
 
     @Override
     public void execute() {
-        // Print the shapes that are being removed.
-        for (IShape shape: shapes) {
-            System.out.println("Grouping " +shape.getShapeType());
-        }
         // Group all the selected shapes together if not mapping to specific group
         if (shapeGroupHashMap == null) {
+            for (IShape shape: shapes) {
+                System.out.println("Grouping " +shape.getShapeType());
+            }
             ShapeGroup newShapeGroup = new ShapeGroup(shapes);
             // Add the new group to groups
             Groups.add(newShapeGroup);
+
         }
+        // Check if we're grouping items back together
         else {
             for(IShape shape: shapeGroupHashMap.keySet()) {
+                System.out.println("Grouping "+shape.getShapeType());
                 ShapeGroup shapeGroup = shapeGroupHashMap.get(shape);
                 shapeGroup.add(shape);
             }
@@ -46,6 +48,7 @@ public class GroupCommand implements ICommand {
         storeGroupedShapes(shapes);
 
         if (!UndoCommandHistory.contains(this)) {
+            System.out.println("adding command");
             CommandHistory.add(this);
         }
     }

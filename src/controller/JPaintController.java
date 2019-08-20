@@ -39,5 +39,6 @@ public class JPaintController implements IJPaintController {
         uiModule.addEvent(EventName.GROUP, () -> new GroupCommand(SelectedShapes.getAll()).execute());
         uiModule.addEvent(EventName.UNGROUP, () -> new UngroupCommand(SelectedShapes.getAll()).execute());
         uiModule.addEvent(EventName.UNDO, () -> new UndoCommand(paintCanvas).execute());
+        uiModule.addEvent(EventName.REDO, () -> new RedoCommand(paintCanvas).execute());
     }
 }

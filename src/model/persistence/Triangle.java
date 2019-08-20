@@ -22,6 +22,7 @@ public class Triangle implements IShape {
     private ShapeType shapeType;
     private int width;
     private int height;
+    private IApplicationState applicationState;
 
     public Triangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
         loadGraphics(paintCanvasBase);
@@ -35,6 +36,7 @@ public class Triangle implements IShape {
         setHeight(applicationState.getHeight());
         setWidth(applicationState.getWidth());
         build(applicationState);
+        this.applicationState = applicationState;
     }
 
     public Triangle(IShape shape) {
@@ -146,6 +148,11 @@ public class Triangle implements IShape {
     @Override
     public int getWidth() {
         return width;
+    }
+
+    @Override
+    public IApplicationState getApplicationState() {
+        return applicationState;
     }
 
 }

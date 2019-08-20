@@ -12,10 +12,10 @@ public class UndoCommandHistory {
     }
 
     public static ICommand getLatestCommand() {
-        if (commandStack.peek() != null) {
+        try {
             return commandStack.pop();
-        }
-        else {
+        } catch (Exception e) {
+            System.out.println("There are no commands in history.");
             return null;
         }
     }

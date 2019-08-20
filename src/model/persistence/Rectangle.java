@@ -21,6 +21,7 @@ public class Rectangle implements IShape {
     private ShapeType shapeType;
     private int width;
     private int height;
+    private IApplicationState applicationState;
 
     Rectangle(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
         loadGraphics(paintCanvasBase);
@@ -32,6 +33,7 @@ public class Rectangle implements IShape {
         setHeight(applicationState.getHeight());
         setWidth(applicationState.getWidth());
         build(applicationState);
+        this.applicationState = applicationState;
     }
 
     public Rectangle(IShape shape) {
@@ -139,6 +141,10 @@ public class Rectangle implements IShape {
         return width;
     }
 
+    @Override
+    public IApplicationState getApplicationState() {
+        return applicationState;
+    }
 
 
 }

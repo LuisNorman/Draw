@@ -21,6 +21,7 @@ public class Ellipse implements IShape {
     private ShapeType shapeType;
     private int width;
     private int height;
+    private IApplicationState applicationState;
 
     public Ellipse(IApplicationState applicationState, PaintCanvasBase paintCanvasBase) {
         loadGraphics(paintCanvasBase);
@@ -32,6 +33,7 @@ public class Ellipse implements IShape {
         setHeight(applicationState.getHeight());
         setWidth(applicationState.getWidth());
         build(applicationState);
+        this.applicationState = applicationState;
     }
 
     public Ellipse(IShape shape) {
@@ -139,6 +141,11 @@ public class Ellipse implements IShape {
     @Override
     public int getWidth() {
         return width;
+    }
+
+    @Override
+    public IApplicationState getApplicationState() {
+        return applicationState;
     }
 }
 

@@ -5,7 +5,6 @@ import model.interfaces.IShape;
 import model.persistence.ShapeGroup;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,8 +19,14 @@ public class RedoCommand implements ICommand {
     @Override
     public void execute() {
         ICommand lastCommand = UndoCommandHistory.getLatestCommand();
+
+        // This can be broken if someone selects before drawing
         if (lastCommand == null) {
-            throw new NullPointerException("There are no more commands to undo.");
+            System.out.println("There are no more commands to redo.");
+            return;
+        }
+        while (lastCommand.getCommandName().equals("Select")) {
+            lastCommand = UndoCommandHistory.getLatestCommand();
         }
         DeleteCommand deleteCommand = null;
 
@@ -30,9 +35,9 @@ public class RedoCommand implements ICommand {
                 System.out.println("Redoing draw");
                 // Add this (DrawCommand) to Redo Command History
                 DrawCommand mostRecentDrawCommand = (DrawCommand)lastCommand;
-                IShape shape = mostRecentDrawCommand.getShape();
-                deleteCommand = new DeleteCommand(paintCanvas, shape);
-//                CommandHistory.add(deleteCommand);
+                List<IShape> shapes = mostRecentDrawCommand.getDrawnShapes();
+                deleteCommand = new DeleteCommand(paintCanvas, shapes);
+                CommandHistory.add(deleteCommand);
                 deleteCommand.execute();
                 break;
 
@@ -44,7 +49,7 @@ public class RedoCommand implements ICommand {
                 List<IShape> pastedShapes = mostRecentPasteCommand.getShapes();
                 // Remove pasted shapes.
                 deleteCommand = new DeleteCommand(paintCanvas, pastedShapes);
-//                CommandHistory.add(deleteCommand);
+                CommandHistory.add(deleteCommand);
                 deleteCommand.execute();
                 break;
 
@@ -56,7 +61,7 @@ public class RedoCommand implements ICommand {
                 Point endPoint = mostRecentMoveCommand.getOriginalEndPoint();
                 IShape selectedShape = mostRecentMoveCommand.getSelectedShape();
                 MoveCommand moveCommand = new MoveCommand(paintCanvas, endPoint, movedShapes, selectedShape);
-//                CommandHistory.add(moveCommand);
+                CommandHistory.add(moveCommand);
                 moveCommand.execute();
                 break;
 
@@ -67,7 +72,7 @@ public class RedoCommand implements ICommand {
                 List<IShape> groupedShapes = mostRecentGroupCommand.getGroupedShapes();
                 // Now ungroup each shape
                 UngroupCommand ungroupCommand = new UngroupCommand(groupedShapes);
-//                CommandHistory.add(ungroupCommand);
+                CommandHistory.add(ungroupCommand);
                 ungroupCommand.execute();
                 break;
 
@@ -77,7 +82,7 @@ public class RedoCommand implements ICommand {
                 UngroupCommand mostRecentUngroupCommand = (UngroupCommand) lastCommand;
                 HashMap<IShape, ShapeGroup> ungroupedShapes = mostRecentUngroupCommand.getUngroupedShapes();
                 GroupCommand groupCommand = new GroupCommand(ungroupedShapes);
-//                CommandHistory.add(groupCommand);
+                CommandHistory.add(groupCommand);
                 groupCommand.execute();
                 break;
 
@@ -86,27 +91,35 @@ public class RedoCommand implements ICommand {
                 DeleteCommand mostRecentDeleteCommand = (DeleteCommand)lastCommand;
                 // Get deleted shapes.
                 List<IShape> deletedShapes = mostRecentDeleteCommand.getDeletedShapes();
-                // Now redraw the deleted shapes
-                for(IShape currentDeletedShape: deletedShapes) {
-                    Recreator recreator = new Recreator(paintCanvas, currentDeletedShape);
-                    IRecreateStrategy iRecreateStrategy = null;
-                    switch(currentDeletedShape.getShapeType()) {
-                        case TRIANGLE :
-                            iRecreateStrategy = new RecreateTriangleStrategy();
-                            break;
+                DrawCommand drawCommand = new DrawCommand(paintCanvas, deletedShapes);
+                CommandHistory.add(drawCommand);
+                drawCommand.execute();
 
-                        case RECTANGLE :
-                            iRecreateStrategy = new RecreateRectangleStrategy();
-                            break;
-
-                        case ELLIPSE :
-                            iRecreateStrategy = new RecreateEllipseStrategy();
-                            break;
-                    }
-                    recreator.recreate(iRecreateStrategy);
-                    ShapeList.add(currentDeletedShape);
-                }
-                break;
+//                System.out.println("Redoing delete");
+//                DeleteCommand mostRecentDeleteCommand = (DeleteCommand)lastCommand;
+//                // Get deleted shapes.
+//                List<IShape> deletedShapes = mostRecentDeleteCommand.getDeletedShapes();
+//                // Now redraw the deleted shapes
+//                for(IShape currentDeletedShape: deletedShapes) {
+//                    Recreator recreator = new Recreator(paintCanvas, currentDeletedShape);
+//                    IRecreateStrategy iRecreateStrategy = null;
+//                    switch(currentDeletedShape.getShapeType()) {
+//                        case TRIANGLE :
+//                            iRecreateStrategy = new RecreateTriangleStrategy();
+//                            break;
+//
+//                        case RECTANGLE :
+//                            iRecreateStrategy = new RecreateRectangleStrategy();
+//                            break;
+//
+//                        case ELLIPSE :
+//                            iRecreateStrategy = new RecreateEllipseStrategy();
+//                            break;
+//                    }
+//                    recreator.recreate(iRecreateStrategy);
+//                    ShapeList.add(currentDeletedShape);
+//                }
+//                break;
         }
     }
 

@@ -40,4 +40,6 @@ public interface IShape {
     void setHeight(int height);
 
     int getHeight();
+
+    IApplicationState getApplicationState();
 }
