@@ -8,19 +8,28 @@ import model.persistence.*;
 import view.interfaces.PaintCanvasBase;
 
 // Command Pattern
+// Move shape by removing and redrawing in new location
 public class MoveCommand implements ICommand {
     private PaintCanvasBase paintCanvas;
     private Point newPoint;
     static final private String commandName = "Move";
+    private List<IShape> movedShapes;
+    private List<IShape> selectedShapes;
+    private IShape selectedShape;
+    private Point originalEndPoints;
 
-    public MoveCommand(PaintCanvasBase paintCanvas, Point newPoint) {
+    public MoveCommand(PaintCanvasBase paintCanvas, Point newPoint, List<IShape> selectedShapes, IShape selectedShape) {
         this.paintCanvas = paintCanvas;
         this.newPoint = newPoint;
+        this.selectedShapes = selectedShapes;
+        this.selectedShape = selectedShape;
     }
 
+    // In order to move the shape, we first remove it
+    // then redraw the shape at new location.
     @Override
     public void execute() {
-        List<IShape> selectedShapes = SelectedShapes.getAll();
+//        List<IShape> selectedShapes = SelectedShapes.getAll();
         // Check if there are selected shapes. If not, do nothing.
         if (selectedShapes == null || selectedShapes.size() == 0) {
             System.out.println("Unable to move. No shapes selected.");
@@ -31,8 +40,11 @@ public class MoveCommand implements ICommand {
         // If they are, move them as well.
         addShapesInGroup(selectedShapes);
 
+        // store moved shapes
+        setMovedShapes(selectedShapes);
+
         // Compute the distance to be moved.
-        IShape selectedShape = SelectedShape.get();
+//        IShape selectedShape = SelectedShape.get();
         int deltaX = newPoint.getX() - selectedShape.getLocation().getStartPoint().getX();
         int deltaY = newPoint.getY() - selectedShape.getLocation().getStartPoint().getY();
         // Loop the selected shapes and grab its properties
@@ -43,12 +55,9 @@ public class MoveCommand implements ICommand {
             int height = endPoint.getY()-startPoint.getY();
             Point newStartPoint = getNewStartPoint(startPoint, deltaX, deltaY);
             Point newEndPoint = getNewEndPoint(newStartPoint, width, height);
-
-            // Remove and recreate shape.
-            Remover remover = new Remover(paintCanvas, startPoint, endPoint);
+            // Initialize remove strategy
             IRemoveStrategy iRemoveStrategy = null;
-
-            Recreator recreator = new Recreator(paintCanvas, newStartPoint, newEndPoint, shape);
+            // Initialize recreate strategy
             IRecreateStrategy iRecreateStrategy = null;
 
             System.out.println("Moving "+shape.getShapeType());
@@ -69,11 +78,29 @@ public class MoveCommand implements ICommand {
                     iRecreateStrategy = new RecreateEllipseStrategy();
                     break;
             }
+            // Remove shape.
+            Remover remover = new Remover(paintCanvas, shape);
             remover.remove(iRemoveStrategy);
-            recreator.recreate(iRecreateStrategy);
+
+            // Update location
             ShapeList.updateStartPoint(shape, newStartPoint);
             ShapeList.updateEndPoint(shape, newEndPoint);
+            // Update selected shape location
+            if (shape == selectedShape) {
+                setSelectedShape(shape);
+            }
+            setOriginalEndPoints(selectedShape.getLocation().getEndPoint());
+
+            // Recreate Shape
+            Recreator recreator = new Recreator(paintCanvas, shape);
+            recreator.recreate(iRecreateStrategy);
+
         }
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 
     // Helper function to calculate new start point when moving.
@@ -109,4 +136,36 @@ public class MoveCommand implements ICommand {
             }
         }
     }
+
+    private void setMovedShapes(List<IShape> movedShapes) {
+        this.movedShapes = movedShapes;
+    }
+
+    List<IShape> getMovedShapes() {
+        return movedShapes;
+    }
+
+    IShape getSelectedShape(){
+        return selectedShape;
+    }
+
+    public Point getOriginalEndPoint() {
+        return originalEndPoints;
+    }
+
+    private void setOriginalEndPoints(Point endPoints) {
+        this.originalEndPoints = endPoints;
+    }
+
+    private void setSelectedShape(IShape shape) {
+        this.selectedShape = shape;
+    }
+
 }
+
+
+
+
+
+
+

@@ -66,6 +66,11 @@ public class SelectCommand implements ICommand {
         }
     }
 
+    @Override
+    public String getCommandName() {
+        return commandName;
+    }
+
     private int calculateWidth(Point startPoint, Point endPoint) {
         return endPoint.getX() - startPoint.getX();
     }

@@ -8,7 +8,9 @@ import java.awt.geom.Ellipse2D;
 
 public class RecreateEllipseStrategy implements IRecreateStrategy {
     @Override
-    public void recreate(PaintCanvasBase paintCanvas, Point startPoint, Point endPoint, IShape shape) {
+    public void recreate(PaintCanvasBase paintCanvas, IShape shape) {
+        Point startPoint = shape.getLocation().getStartPoint();
+        Point endPoint = shape.getLocation().getEndPoint();
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
         graphics2d.setColor(shape.getPrimaryColor());
         if (shape.getShapeShadingType() == ShapeShadingType.OUTLINE_AND_FILLED_IN) {

@@ -12,6 +12,7 @@ import java.util.List;
 public class OutlineCommand implements ICommand {
     private final PaintCanvasBase paintCanvas;
     private final IApplicationState applicationState;
+    private static final String commandName = "Outline";
 
     public OutlineCommand(PaintCanvasBase paintCanvas, IApplicationState applicationState) {
         this.paintCanvas = paintCanvas;
@@ -58,6 +59,11 @@ public class OutlineCommand implements ICommand {
 
             outliner.outline(iOutlineStrategy);
         }
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 
     // Checks if a shape is apart of a group

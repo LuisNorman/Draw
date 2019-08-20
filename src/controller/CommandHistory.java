@@ -4,17 +4,22 @@ import controller.command.ICommand;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
-// State pattern
 public class CommandHistory {
-    static List<ICommand> commandList = new LinkedList<>();
+    private static Stack<ICommand> commandList = new Stack<>();
 
     public static void add(ICommand command) {
-        commandList.add(command);
+        commandList.push(command);
     }
 
-    public List<ICommand> getCommandHistory() {
-        return commandList;
+    public static ICommand getLatestCommand() {
+        try {
+            return commandList.pop();
+        } catch (Exception e) {
+            System.out.println("There are no commands in history.");
+            return null;
+        }
     }
 
 }

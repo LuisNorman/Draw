@@ -7,20 +7,28 @@ import model.interfaces.IShape;
 import model.persistence.Rectangle;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
+
+import java.util.LinkedList;
 import java.util.List;
 
 public class PasteCommand implements ICommand {
     private final PaintCanvasBase paintCanvas;
+    private final static String commandName = "Paste";
+    private List<IShape> shapesToPaste;
+    private static List<IShape> pastedShapes = new LinkedList<>();
 
-    public PasteCommand(PaintCanvasBase paintCanvas) {
+    public PasteCommand(PaintCanvasBase paintCanvas, List<IShape> shapesToPaste) {
         this.paintCanvas = paintCanvas;
+        this.shapesToPaste = shapesToPaste;
     }
 
     @Override
     public void execute() {
-        List<IShape> copiedShapes = CopyCommand.getCopiedShapes();
-
-        for (IShape shape : copiedShapes) {
+        if (shapesToPaste == null) {
+            System.out.println("There are no shapes to paste.");
+            return;
+        }
+        for (IShape shape : shapesToPaste) {
             IShape newShape = null;
             Point startPoint = shape.getLocation().getStartPoint();
             Point endPoint = shape.getLocation().getEndPoint();
@@ -28,7 +36,8 @@ public class PasteCommand implements ICommand {
             int height = endPoint.getY()-startPoint.getY();
             Point newStartPoint = getNewStartPoint(startPoint, width*2+5);
             Point newEndPoint = getNewEndPoint(newStartPoint, width, height);
-            Recreator recreator = new Recreator(paintCanvas, newStartPoint, newEndPoint, shape);
+            shape.setLocation(newStartPoint, newEndPoint);
+            Recreator recreator = new Recreator(paintCanvas, shape);
             IRecreateStrategy iRecreateStrategy = null;
 
             switch(shape.getShapeType()) {
@@ -49,11 +58,24 @@ public class PasteCommand implements ICommand {
             }
             recreator.recreate(iRecreateStrategy);
 
-            // im only updating the shape, i need to create a new one
-            shape.setLocation(newStartPoint, newEndPoint);
             newShape.setLocation(newStartPoint, newEndPoint);
             ShapeList.add(newShape);
+            pastedShapes.add(newShape);
+
         }
+
+        // Check if paste is used for undo
+        if (!UndoCommandHistory.contains(this)) {
+            ICommand newPasteCommand = new PasteCommand(paintCanvas, pastedShapes);
+            CommandHistory.add(newPasteCommand);
+        }
+        // Clear pasted shapes
+        pastedShapes = new LinkedList<>();
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 
     private static Point getNewStartPoint(Point startPoint, int deltaX) {
@@ -67,5 +89,10 @@ public class PasteCommand implements ICommand {
         int newEndPoint_Y = newStartPoint.getY()+height;
         return new Point(newEndPoint_X, newEndPoint_Y);
     }
+
+    List<IShape> getShapes() {
+        return shapesToPaste;
+    }
+
 
 }

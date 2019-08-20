@@ -7,7 +7,9 @@ import java.awt.Graphics2D;
 
 public class RecreateTriangleStrategy implements IRecreateStrategy {
     @Override
-    public void recreate(PaintCanvasBase paintCanvas, Point startPoint, Point endPoint, IShape shape) {
+    public void recreate(PaintCanvasBase paintCanvas, IShape shape) {
+        Point startPoint = shape.getLocation().getStartPoint();
+        Point endPoint = shape.getLocation().getEndPoint();
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
         graphics2d.setColor(shape.getPrimaryColor());
         int n = 3;

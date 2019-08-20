@@ -8,6 +8,7 @@ import java.util.List;
 
 public class CopyCommand implements ICommand {
     private static List<IShape> copiedShapes;
+    private static String commandName = "Copy";
 
     public CopyCommand() {
         copiedShapes = new LinkedList<>();
@@ -33,6 +34,11 @@ public class CopyCommand implements ICommand {
                     break;
             }
         }
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 
     public static List<IShape> getCopiedShapes() {

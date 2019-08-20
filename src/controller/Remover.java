@@ -1,18 +1,21 @@
 package controller;
 
+import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
 
 public class Remover {
-    PaintCanvasBase paintCanvas;
-    Point startPoint;
-    Point endPoint;
+    private PaintCanvasBase paintCanvas;
+    private IShape shape;
 
-    public Remover(PaintCanvasBase paintCanvas, Point startPoint, Point endPoint) {
-         this.paintCanvas = paintCanvas;
-         this.startPoint = startPoint;
-         this.endPoint = endPoint;
+    public Remover(PaintCanvasBase paintCanvas, IShape shape) {
+        this.shape = shape;
+        this.paintCanvas = paintCanvas;
     }
     public void remove(IRemoveStrategy removeStrategy) {
-        removeStrategy.remove(paintCanvas, startPoint, endPoint);
+        removeStrategy.remove(paintCanvas, shape);
+    }
+
+    public IShape getShape() {
+        return shape;
     }
 }

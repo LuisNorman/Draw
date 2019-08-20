@@ -9,6 +9,7 @@ import controller.command.MoveCommand;
 import controller.command.SelectCommand;
 import model.interfaces.IApplicationState;
 import model.persistence.SelectedShape;
+import model.persistence.SelectedShapes;
 import view.interfaces.PaintCanvasBase;
 
 public class MouseClickHandler extends MouseAdapter {
@@ -38,7 +39,7 @@ public class MouseClickHandler extends MouseAdapter {
 
             case MOVE:
                 SelectedShape.set(applicationState.getStartPoint()); // Move from current selected shape
-                command = new MoveCommand(paintCanvas, endPoint);
+                command = new MoveCommand(paintCanvas, endPoint, SelectedShapes.getAll(), SelectedShape.get());
                 break;
 
             case SELECT:

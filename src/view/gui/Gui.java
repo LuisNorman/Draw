@@ -22,6 +22,7 @@ public class Gui implements IUiModule {
 		button.addActionListener((ActionEvent) -> callback.run());
 	}
 
+
     @Override
     public <T> T getDialogResponse(IDialogChoice dialogSettings) {
         Object selectedValue = JOptionPane.showInputDialog(null,

@@ -22,6 +22,10 @@ public class ShapeGroup {
         shapeGroup.remove(shape);
     }
 
+    public void add(IShape shape) {
+        this.shapeGroup.add(shape);
+    }
+
 
 
 }

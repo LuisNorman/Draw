@@ -1,86 +1,88 @@
 package controller.command;
+
 import controller.*;
 import model.interfaces.IShape;
-import model.persistence.*;
+import model.persistence.ShapeGroup;
+import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
+
 import java.util.HashMap;
 import java.util.List;
 
-public class UndoCommand implements ICommand {
-    private final static  String commandName = "Undo";
+public class RedoCommand implements ICommand {
+    private final static  String commandName = "Redo";
     private PaintCanvasBase paintCanvas;
 
-    public UndoCommand(PaintCanvasBase paintCanvas) {
+    public RedoCommand(PaintCanvasBase paintCanvas) {
         this.paintCanvas = paintCanvas;
     }
 
     @Override
     public void execute() {
-        ICommand lastCommand = CommandHistory.getLatestCommand();
+        ICommand lastCommand = UndoCommandHistory.getLatestCommand();
         if (lastCommand == null) {
-            System.out.println("There are no more commands to undo.");
-            return;
+            throw new NullPointerException("There are no more commands to undo.");
         }
         DeleteCommand deleteCommand = null;
 
         switch(lastCommand.getCommandName()) {
             case "Draw":
-                System.out.println("Undoing draw");
+                System.out.println("Redoing draw");
                 // Add this (DrawCommand) to Redo Command History
                 DrawCommand mostRecentDrawCommand = (DrawCommand)lastCommand;
                 IShape shape = mostRecentDrawCommand.getShape();
                 deleteCommand = new DeleteCommand(paintCanvas, shape);
-                UndoCommandHistory.add(deleteCommand);
+//                CommandHistory.add(deleteCommand);
                 deleteCommand.execute();
                 break;
 
             case "Paste":
-                System.out.println("Undoing paste");
+                System.out.println("Redoing paste");
                 // Add this to Redo Command History
-                PasteCommand mostRecentPasteCommand = (PasteCommand)lastCommand;
+                PasteCommand mostRecentPasteCommand = (PasteCommand) lastCommand;
                 // Get pasted shapes.
                 List<IShape> pastedShapes = mostRecentPasteCommand.getShapes();
                 // Remove pasted shapes.
                 deleteCommand = new DeleteCommand(paintCanvas, pastedShapes);
-                UndoCommandHistory.add(deleteCommand);
+//                CommandHistory.add(deleteCommand);
                 deleteCommand.execute();
                 break;
 
             case "Move":
-                System.out.println("Undoing move");
+                System.out.println("Redoing move");
                 MoveCommand mostRecentMoveCommand = (MoveCommand)lastCommand;
                 // get moved shapes and its original positions
                 List<IShape> movedShapes = mostRecentMoveCommand.getMovedShapes();
                 Point endPoint = mostRecentMoveCommand.getOriginalEndPoint();
                 IShape selectedShape = mostRecentMoveCommand.getSelectedShape();
                 MoveCommand moveCommand = new MoveCommand(paintCanvas, endPoint, movedShapes, selectedShape);
-                UndoCommandHistory.add(moveCommand);
+//                CommandHistory.add(moveCommand);
                 moveCommand.execute();
                 break;
 
             case "Group":
-                System.out.println("Undoing group");
+                System.out.println("Redoing group");
                 GroupCommand mostRecentGroupCommand = (GroupCommand)lastCommand;
                 // Get grouped shapes.
                 List<IShape> groupedShapes = mostRecentGroupCommand.getGroupedShapes();
                 // Now ungroup each shape
                 UngroupCommand ungroupCommand = new UngroupCommand(groupedShapes);
-                UndoCommandHistory.add(ungroupCommand);
+//                CommandHistory.add(ungroupCommand);
                 ungroupCommand.execute();
                 break;
 
             case "Ungroup":
-                System.out.println("Undoing ungroup");
+                System.out.println("Redoing ungroup");
                 // Get ungrouped shapes and the group it belonged to;
                 UngroupCommand mostRecentUngroupCommand = (UngroupCommand) lastCommand;
                 HashMap<IShape, ShapeGroup> ungroupedShapes = mostRecentUngroupCommand.getUngroupedShapes();
                 GroupCommand groupCommand = new GroupCommand(ungroupedShapes);
-                UndoCommandHistory.add(groupCommand);
+//                CommandHistory.add(groupCommand);
                 groupCommand.execute();
                 break;
 
             case "Delete":
-                System.out.println("Undoing delete");
+                System.out.println("Redoing delete");
                 DeleteCommand mostRecentDeleteCommand = (DeleteCommand)lastCommand;
                 // Get deleted shapes.
                 List<IShape> deletedShapes = mostRecentDeleteCommand.getDeletedShapes();
@@ -112,6 +114,4 @@ public class UndoCommand implements ICommand {
     public String getCommandName() {
         return commandName;
     }
-
-
 }

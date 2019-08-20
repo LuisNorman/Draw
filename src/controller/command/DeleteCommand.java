@@ -1,31 +1,36 @@
 package controller.command;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import controller.*;
 import model.interfaces.IShape;
 import model.persistence.ShapeGroup;
 import model.persistence.Groups;
-import model.persistence.SelectedShapes;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 
 public class DeleteCommand implements ICommand {
     private PaintCanvasBase paintCanvas;
+    private final static String commandName = "Delete";
+    private List<IShape> deletedShapes;
 
-    public DeleteCommand(PaintCanvasBase paintCanvas) {
+    public DeleteCommand(PaintCanvasBase paintCanvas, List<IShape> deletedShapes) {
         this.paintCanvas = paintCanvas;
+        this.deletedShapes = deletedShapes;
+    }
 
+    public DeleteCommand(PaintCanvasBase paintCanvas, IShape deletedShape) {
+        this.paintCanvas = paintCanvas;
+        this.deletedShapes = new ArrayList<>();
+        deletedShapes.add(deletedShape);
     }
 
     @Override
     public void execute() {
-        List<IShape> selectedShapes = SelectedShapes.getAll();
-        addShapesInGroup(selectedShapes);
-        for (IShape shape : selectedShapes) {
-            Point startPoint = shape.getLocation().getStartPoint();
-            Point endPoint = shape.getLocation().getEndPoint();
-            Remover remover = new Remover(paintCanvas, startPoint, endPoint);
+        addShapesInGroup(deletedShapes);
+        for (IShape shape : deletedShapes) {
+            System.out.println("deleting "+shape.getShapeType()+" at"+shape.getLocation().getStartPoint().getX());
+            Remover remover = new Remover(paintCanvas, shape);
             IRemoveStrategy iRemoveStrategy = null;
 
             switch(shape.getShapeType()) {
@@ -47,6 +52,14 @@ public class DeleteCommand implements ICommand {
             // whenever an item is deleted from shape list.
 //            SelectedShapes.remove(shape);
         }
+        if (!UndoCommandHistory.contains(this)) {
+            CommandHistory.add(this);
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 
     // Checks if a shape is apart of a group
@@ -67,6 +80,10 @@ public class DeleteCommand implements ICommand {
                 }
             }
         }
+    }
+
+    List<IShape> getDeletedShapes() {
+        return deletedShapes;
     }
 
 }

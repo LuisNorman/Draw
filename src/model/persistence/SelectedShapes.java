@@ -24,7 +24,6 @@ public class SelectedShapes {
     }
 
     public static void clear() {
-        System.out.println("size in object: "+selectedShapes.size());
         selectedShapes = new LinkedList<>();
     }
 

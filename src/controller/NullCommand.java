@@ -7,4 +7,9 @@ public class NullCommand implements ICommand {
     public void execute() {
         System.out.println("Please select a command");
     }
+
+    @Override
+    public String getCommandName() {
+        return "Null Command";
+    }
 }
