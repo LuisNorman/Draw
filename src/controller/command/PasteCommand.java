@@ -61,7 +61,6 @@ public class PasteCommand implements ICommand {
             newShape.setLocation(newStartPoint, newEndPoint);
             ShapeList.add(newShape);
             pastedShapes.add(newShape);
-
         }
 
         // Check if paste is used for undo

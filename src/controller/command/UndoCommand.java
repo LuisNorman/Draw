@@ -17,9 +17,14 @@ public class UndoCommand implements ICommand {
     @Override
     public void execute() {
         ICommand lastCommand = CommandHistory.getLatestCommand();
+
+        // This can be broken if someone selects before drawing
         if (lastCommand == null) {
             System.out.println("There are no more commands to undo.");
             return;
+        }
+        while (lastCommand.getCommandName().equals("Select")) {
+            lastCommand = CommandHistory.getLatestCommand();
         }
         DeleteCommand deleteCommand = null;
 
@@ -105,6 +110,9 @@ public class UndoCommand implements ICommand {
                     ShapeList.add(currentDeletedShape);
                 }
                 break;
+
+            default:
+                System.out.println("Can't undo "+lastCommand.getCommandName());
         }
     }
 
