@@ -13,7 +13,6 @@ public class SelectCommand implements ICommand {
 
     static final private String commandName = "Select";
     private Point startPoint;
-    private Point endPoint;
     private int width;
     private int height;
 
@@ -29,7 +28,6 @@ public class SelectCommand implements ICommand {
             endPoint.setY(temp);
         }
         this.startPoint = startPoint;
-        this.endPoint = endPoint;
         this.width = calculateWidth(startPoint, endPoint);
         this.height = calculateHeight(startPoint, endPoint);
     }

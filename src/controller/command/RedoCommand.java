@@ -3,7 +3,6 @@ package controller.command;
 import controller.*;
 import model.interfaces.IShape;
 import model.persistence.ShapeGroup;
-import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 import java.util.HashMap;
 import java.util.List;

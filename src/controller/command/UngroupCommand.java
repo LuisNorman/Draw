@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UngroupCommand implements ICommand {
-    HashMap<IShape, ShapeGroup> ungroupedShapes;
+    private HashMap<IShape, ShapeGroup> ungroupedShapes;
     private List<IShape> shapesToUngroup;
     private final static String commandName = "Ungroup";
 

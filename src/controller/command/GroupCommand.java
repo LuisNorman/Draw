@@ -48,7 +48,6 @@ public class GroupCommand implements ICommand {
         storeGroupedShapes(shapes);
 
         if (!UndoCommandHistory.contains(this)) {
-            System.out.println("adding command");
             CommandHistory.add(this);
         }
     }

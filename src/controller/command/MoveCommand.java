@@ -149,7 +149,7 @@ public class MoveCommand implements ICommand {
         return selectedShape;
     }
 
-    public Point getOriginalEndPoint() {
+    Point getOriginalEndPoint() {
         return originalEndPoints;
     }
 
