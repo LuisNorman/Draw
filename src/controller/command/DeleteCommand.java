@@ -4,7 +4,6 @@ import java.util.List;
 import controller.*;
 import model.interfaces.IShape;
 import model.persistence.*;
-import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
 
 public class DeleteCommand implements ICommand, IUndoRedoCommand {

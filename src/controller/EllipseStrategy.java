@@ -3,7 +3,6 @@ package controller;
 import model.ShapeShadingType;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
-import model.persistence.Point;
 import model.persistence.TransformColor;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
