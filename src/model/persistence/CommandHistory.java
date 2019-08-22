@@ -1,6 +1,7 @@
 package model.persistence;
 
 import controller.command.ICommand;
+import controller.command.NullCommand;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class CommandHistory {
             return commandStack.pop();
         } catch (Exception e) {
             System.out.println("There are no commands in history.");
-            return null;
+            return new NullCommand();
         }
     }
 

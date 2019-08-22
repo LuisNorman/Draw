@@ -1,6 +1,7 @@
 package model.persistence;
 
 import controller.command.ICommand;
+import controller.command.NullCommand;
 
 import java.util.Stack;
 
@@ -16,7 +17,7 @@ public class UndoCommandHistory {
             return commandStack.pop();
         } catch (Exception e) {
             System.out.println("There are no commands in history.");
-            return null;
+            return new NullCommand();
         }
     }
 

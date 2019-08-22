@@ -4,9 +4,10 @@ import java.util.List;
 import controller.*;
 import model.interfaces.IShape;
 import model.persistence.*;
+import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
 
-public class DeleteCommand implements ICommand {
+public class DeleteCommand implements ICommand, IUndoRedoCommand {
     private PaintCanvasBase paintCanvas;
     private final static String commandName = "Delete";
     private List<IShape> deletedShapes;
@@ -75,6 +76,26 @@ public class DeleteCommand implements ICommand {
 
     List<IShape> getDeletedShapes() {
         return deletedShapes;
+    }
+
+    public void undo() {
+        System.out.println("Undoing delete");
+//        DeleteCommand mostRecentDeleteCommand = (DeleteCommand)lastCommand;
+        // Get deleted shapes.
+        List<IShape> deletedShapes = this.getDeletedShapes();
+        DrawCommand drawCommand = new DrawCommand(paintCanvas, deletedShapes);
+        UndoCommandHistory.add(drawCommand);
+        drawCommand.execute();
+    }
+
+    public void redo() {
+        System.out.println("Redoing delete");
+//        DeleteCommand mostRecentDeleteCommand = (DeleteCommand)lastCommand;
+        // Get deleted shapes.
+        List<IShape> deletedShapes = this.getDeletedShapes();
+        DrawCommand drawCommand = new DrawCommand(paintCanvas, deletedShapes);
+        CommandHistory.add(drawCommand);
+        drawCommand.execute();
     }
 
 }

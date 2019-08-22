@@ -5,11 +5,14 @@ import model.persistence.UndoCommandHistory;
 import model.interfaces.IShape;
 import model.persistence.ShapeGroup;
 import model.persistence.Groups;
+import view.gui.PaintCanvas;
+import view.interfaces.PaintCanvasBase;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UngroupCommand implements ICommand {
+public class UngroupCommand implements ICommand, IUndoRedoCommand {
     private HashMap<IShape, ShapeGroup> ungroupedShapes;
     private List<IShape> shapesToUngroup;
     private final static String commandName = "Ungroup";
@@ -58,5 +61,23 @@ public class UngroupCommand implements ICommand {
 
     HashMap<IShape, ShapeGroup> getUngroupedShapes() {
         return ungroupedShapes;
+    }
+
+    public void undo() {
+        System.out.println("Undoing ungroup");
+        // Get ungrouped shapes and the group it belonged to;
+        HashMap<IShape, ShapeGroup> ungroupedShapes = this.getUngroupedShapes();
+        GroupCommand groupCommand = new GroupCommand(ungroupedShapes);
+        UndoCommandHistory.add(groupCommand);
+        groupCommand.execute();
+    }
+
+    public void redo() {
+        System.out.println("Redoing ungroup");
+        // Get ungrouped shapes and the group it belonged to;
+        HashMap<IShape, ShapeGroup> ungroupedShapes = this.getUngroupedShapes();
+        GroupCommand groupCommand = new GroupCommand(ungroupedShapes);
+        CommandHistory.add(groupCommand);
+        groupCommand.execute();
     }
 }

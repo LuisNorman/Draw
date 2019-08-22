@@ -8,5 +8,5 @@ import view.interfaces.PaintCanvasBase;
 public interface IShapeStrategy {
     void recreate(PaintCanvasBase paintCanvas, IShape shape);
     void remove(PaintCanvasBase paintCanvas, IShape shape);
-    void outline(PaintCanvasBase paintCanvas, IShape shape, Point startPoint, Point endPoint, IApplicationState applicationState);
+    void outline(PaintCanvasBase paintCanvas, IShape shape, IApplicationState applicationState);
 }

@@ -1,6 +1,4 @@
-package controller;
-
-import controller.command.ICommand;
+package controller.command;
 
 public class NullCommand implements ICommand {
     @Override

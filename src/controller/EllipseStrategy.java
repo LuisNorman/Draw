@@ -6,7 +6,6 @@ import model.interfaces.IShape;
 import model.persistence.Point;
 import model.persistence.TransformColor;
 import view.interfaces.PaintCanvasBase;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
@@ -44,7 +43,9 @@ public class EllipseStrategy implements IShapeStrategy {
     }
 
     @Override
-    public void outline(PaintCanvasBase paintCanvas, IShape shape, model.persistence.Point startPoint, Point endPoint, IApplicationState applicationState) {
+    public void outline(PaintCanvasBase paintCanvas, IShape shape, IApplicationState applicationState) {
+        model.persistence.Point startPoint = shape.getLocation().getStartPoint();
+        model.persistence.Point endPoint = shape.getLocation().getEndPoint();
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
         Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[]{9}, 0);
         graphics2d.setStroke(stroke);

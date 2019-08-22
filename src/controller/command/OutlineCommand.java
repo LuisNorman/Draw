@@ -12,18 +12,20 @@ public class OutlineCommand implements ICommand {
     private final PaintCanvasBase paintCanvas;
     private final IApplicationState applicationState;
     private static final String commandName = "Outline";
+    private IShape currentShape;
 
-    public OutlineCommand(PaintCanvasBase paintCanvas, IApplicationState applicationState) {
+    public OutlineCommand(PaintCanvasBase paintCanvas, IApplicationState applicationState, IShape currentShape) {
         this.paintCanvas = paintCanvas;
         this.applicationState = applicationState;
+        this.currentShape = currentShape;
     }
 
     @Override
     public void execute() {
-        List<IShape> selectedShapes = SelectedShapes.getAll();
-        addShapesInGroup(selectedShapes);
+//        List<IShape> selectedShapes = SelectedShapes.getAll();
+//        addShapesInGroup(selectedShapes);
         List<IShape> shapeList = ShapeList.getShapeList();
-        for (IShape currentShape : selectedShapes) {
+//        for (IShape currentShape : selectedShapes) {
             System.out.println("Outlining "+currentShape.getShapeType());
             IShape iShape = null;
             Point startPoint = currentShape.getLocation().getStartPoint();
@@ -61,7 +63,7 @@ public class OutlineCommand implements ICommand {
             }
 
             shape.outline(iShapeStrategy);
-        }
+//        }
     }
 
     @Override

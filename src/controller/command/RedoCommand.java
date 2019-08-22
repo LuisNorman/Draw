@@ -22,7 +22,7 @@ public class RedoCommand implements ICommand {
         ICommand lastCommand = UndoCommandHistory.getLatestCommand();
 
         // This can be broken if someone selects before drawing
-        if (lastCommand == null) {
+        if (lastCommand.equals(new NullCommand())) {
             System.out.println("There are no more commands to redo.");
             return;
         }
@@ -95,32 +95,8 @@ public class RedoCommand implements ICommand {
                 DrawCommand drawCommand = new DrawCommand(paintCanvas, deletedShapes);
                 CommandHistory.add(drawCommand);
                 drawCommand.execute();
+                break;
 
-//                System.out.println("Redoing delete");
-//                DeleteCommand mostRecentDeleteCommand = (DeleteCommand)lastCommand;
-//                // Get deleted shapes.
-//                List<IShape> deletedShapes = mostRecentDeleteCommand.getDeletedShapes();
-//                // Now redraw the deleted shapes
-//                for(IShape currentDeletedShape: deletedShapes) {
-//                    Recreator recreator = new Recreator(paintCanvas, currentDeletedShape);
-//                    IRecreateStrategy iRecreateStrategy = null;
-//                    switch(currentDeletedShape.getShapeType()) {
-//                        case TRIANGLE :
-//                            iRecreateStrategy = new RecreateTriangleStrategy();
-//                            break;
-//
-//                        case RECTANGLE :
-//                            iRecreateStrategy = new RecreateRectangleStrategy();
-//                            break;
-//
-//                        case ELLIPSE :
-//                            iRecreateStrategy = new RecreateEllipseStrategy();
-//                            break;
-//                    }
-//                    recreator.recreate(iRecreateStrategy);
-//                    ShapeList.add(currentDeletedShape);
-//                }
-//                break;
         }
     }
 

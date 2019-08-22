@@ -34,7 +34,7 @@ public class Shape {
     }
 
     public void outline(IShapeStrategy iShapeStrategy) {
-        iShapeStrategy.outline(paintCanvas, shape, startPoint, endPoint, applicationState);
+        iShapeStrategy.outline(paintCanvas, shape, applicationState);
     }
 
 }

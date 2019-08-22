@@ -11,7 +11,6 @@ public class JPaintController implements IJPaintController {
     private final IUiModule uiModule;
     private final IApplicationState applicationState;
     private final PaintCanvasBase paintCanvas;
-    private ICommand command;
 
     public JPaintController(IUiModule uiModule, IApplicationState applicationState, PaintCanvasBase paintCanvas) {
         this.uiModule = uiModule;
@@ -33,10 +32,10 @@ public class JPaintController implements IJPaintController {
         uiModule.addEvent(EventName.DELETE, () -> new DeleteCommand(paintCanvas, SelectedShapes.getAll()).execute());
         uiModule.addEvent(EventName.COPY, () -> new CopyCommand().execute());
         uiModule.addEvent(EventName.PASTE, () -> new PasteCommand(paintCanvas, CopyCommand.getCopiedShapes()).execute());
-        uiModule.addEvent(EventName.OUTLINE, () -> new OutlineCommand(paintCanvas, applicationState).execute());
+//        uiModule.addEvent(EventName.OUTLINE, () -> new OutlineCommand(paintCanvas, applicationState).execute());
         uiModule.addEvent(EventName.GROUP, () -> new GroupCommand(SelectedShapes.getAll()).execute());
         uiModule.addEvent(EventName.UNGROUP, () -> new UngroupCommand(SelectedShapes.getAll()).execute());
-        uiModule.addEvent(EventName.UNDO, () -> new UndoCommand(paintCanvas).execute());
-        uiModule.addEvent(EventName.REDO, () -> new RedoCommand(paintCanvas).execute());
+        uiModule.addEvent(EventName.UNDO, () -> new Undo().execute());
+        uiModule.addEvent(EventName.REDO, () -> new Redo().execute());
     }
 }

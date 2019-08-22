@@ -8,7 +8,7 @@ import view.interfaces.PaintCanvasBase;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PasteCommand implements ICommand {
+public class PasteCommand implements ICommand, IUndoRedoCommand {
     private final PaintCanvasBase paintCanvas;
     private final static String commandName = "Paste";
     private List<IShape> shapesToPaste;
@@ -34,31 +34,25 @@ public class PasteCommand implements ICommand {
             Point newStartPoint = getNewStartPoint(startPoint, width*2+5);
             Point newEndPoint = getNewEndPoint(newStartPoint, width, height);
             currentShape.setLocation(newStartPoint, newEndPoint);
-//            Recreator recreator = new Recreator(paintCanvas, currentShape);
             Shape shape = new Shape(paintCanvas, currentShape);
             IShapeStrategy iShapeStrategy = null;
-//            IRecreateStrategy iRecreateStrategy = null;
 
             switch(currentShape.getShapeType()) {
                 case TRIANGLE :
                     newShape = new Triangle(currentShape);
                     iShapeStrategy = new TriangleStrategy();
-//                    iRecreateStrategy = new RecreateTriangleStrategy();
                     break;
 
                 case RECTANGLE :
                     newShape = new Rectangle(currentShape);
                     iShapeStrategy = new RectangleStrategy();
-//                    iRecreateStrategy = new RecreateRectangleStrategy();
                     break;
 
                 case ELLIPSE :
                     newShape = new Ellipse(currentShape);
                     iShapeStrategy = new EllipseStrategy();
-//                    iRecreateStrategy = new RecreateEllipseStrategy();
                     break;
             }
-//            recreator.recreate(iRecreateStrategy);
             shape.recreate(iShapeStrategy);
 
             newShape.setLocation(newStartPoint, newEndPoint);
@@ -96,5 +90,24 @@ public class PasteCommand implements ICommand {
         return shapesToPaste;
     }
 
+    public void undo() {
+        System.out.println("Undoing paste");
+        // Get pasted shapes.
+        List<IShape> pastedShapes = this.getShapes();
+        // Remove pasted shapes.
+        DeleteCommand deleteCommand = new DeleteCommand(paintCanvas, pastedShapes);
+        UndoCommandHistory.add(deleteCommand);
+        deleteCommand.execute();
+    }
+
+    public void redo() {
+        System.out.println("Redoing paste");
+        // Get pasted shapes.
+        List<IShape> pastedShapes = this.getShapes();
+        // Remove pasted shapes.
+        DeleteCommand deleteCommand = new DeleteCommand(paintCanvas, pastedShapes);
+        CommandHistory.add(deleteCommand);
+        deleteCommand.execute();
+    }
 
 }

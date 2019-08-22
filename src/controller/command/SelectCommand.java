@@ -1,8 +1,10 @@
 package controller.command;
 
+import model.interfaces.IApplicationState;
 import model.persistence.Point;
 import model.interfaces.IShape;
 import model.persistence.*;
+import view.interfaces.PaintCanvasBase;
 
 import java.util.List;
 
@@ -14,8 +16,10 @@ public class SelectCommand implements ICommand {
     private Point startPoint;
     private int width;
     private int height;
+    private IApplicationState applicationState;
+    private PaintCanvasBase paintCanvas;
 
-    public SelectCommand(Point startPoint, Point endPoint) {
+    public SelectCommand(Point startPoint, Point endPoint, IApplicationState applicationState, PaintCanvasBase paintCanvas) {
         if (startPoint.getX() > endPoint.getX()) {
             int temp = startPoint.getX();
             startPoint.setX(endPoint.getX());
@@ -29,6 +33,8 @@ public class SelectCommand implements ICommand {
         this.startPoint = startPoint;
         this.width = calculateWidth(startPoint, endPoint);
         this.height = calculateHeight(startPoint, endPoint);
+        this.applicationState = applicationState;
+        this.paintCanvas = paintCanvas;
     }
 
     public void execute() {
@@ -53,6 +59,7 @@ public class SelectCommand implements ICommand {
                     SelectedShape.set(currentShape);
                     found = true;
                     System.out.println(currentShape.getShapeType()+" selected.");
+                    new OutlineCommand(paintCanvas, applicationState, currentShape).execute();
                 }
             }
         }

@@ -6,7 +6,6 @@ import model.interfaces.IShape;
 import model.persistence.Point;
 import model.persistence.TransformColor;
 import view.interfaces.PaintCanvasBase;
-
 import java.awt.*;
 
 public class TriangleStrategy implements IShapeStrategy {
@@ -48,14 +47,16 @@ public class TriangleStrategy implements IShapeStrategy {
     }
 
     @Override
-    public void outline(PaintCanvasBase paintCanvas, IShape shape, model.persistence.Point startPoint, Point endPoint, IApplicationState applicationState) {
+    public void outline(PaintCanvasBase paintCanvas, IShape shape,  IApplicationState applicationState) {
+        Point startPoint = shape.getLocation().getStartPoint();
+        Point endPoint = shape.getLocation().getEndPoint();
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
         Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[]{9}, 0);
         graphics2d.setStroke(stroke);
         graphics2d.setColor(transformColor.transform(applicationState.getActiveSecondaryColor()));
         int n = 3;
-        int[] x = new int[]{startPoint.getX(), startPoint.getX()+(endPoint.getX()-startPoint.getX()), startPoint.getX()-(endPoint.getX()-startPoint.getX())};
-        int[] y = new int[]{startPoint.getY(), startPoint.getY()+(endPoint.getY()-startPoint.getY()), startPoint.getY()+(endPoint.getY()-startPoint.getY())};
+        int[] x = new int[]{startPoint.getX(), startPoint.getX()+(endPoint.getX()-startPoint.getX())+10, startPoint.getX()-(endPoint.getX()-startPoint.getX())-10};
+        int[] y = new int[]{startPoint.getY()-5, startPoint.getY()+(endPoint.getY()-startPoint.getY())+5, startPoint.getY()+(endPoint.getY()-startPoint.getY())+5};
         graphics2d.drawPolygon(x, y, n);
     }
 

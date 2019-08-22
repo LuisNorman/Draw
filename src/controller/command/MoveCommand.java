@@ -9,7 +9,7 @@ import view.interfaces.PaintCanvasBase;
 
 // Command Pattern
 // Move shape by removing and redrawing in new location
-public class MoveCommand implements ICommand {
+public class MoveCommand implements ICommand, IUndoRedoCommand {
     private PaintCanvasBase paintCanvas;
     private Point newPoint;
     static final private String commandName = "Move";
@@ -30,7 +30,6 @@ public class MoveCommand implements ICommand {
     // then redraw the shape at new location.
     @Override
     public void execute() {
-//        List<IShape> selectedShapes = SelectedShapes.getAll();
         // Check if there are selected shapes. If not, do nothing.
         if (selectedShapes == null || selectedShapes.size() == 0) {
             System.out.println("Unable to move. No shapes selected.");
@@ -67,27 +66,19 @@ public class MoveCommand implements ICommand {
             switch(currentShape.getShapeType()) {
                 case TRIANGLE:
                     iShapeStrategy = new TriangleStrategy();
-//                    iRemoveStrategy = new RemoveTriangleStrategy();
-//                    iRecreateStrategy = new RecreateTriangleStrategy();
                     break;
 
                 case RECTANGLE:
                     iShapeStrategy = new RectangleStrategy();
-//                    iRemoveStrategy = new RemoveRectangleStrategy();
-//                    iRecreateStrategy = new RecreateRectangleStrategy();
                     break;
 
                 case ELLIPSE:
                     iShapeStrategy = new EllipseStrategy();
-//                    iRemoveStrategy = new RemoveEllipseStrategy();
-//                    iRecreateStrategy = new RecreateEllipseStrategy();
                     break;
             }
             // Remove shape.
             Shape shape = new Shape(paintCanvas, currentShape);
             shape.remove(iShapeStrategy);
-//            Remover remover = new Remover(paintCanvas, currentShape);
-//            remover.remove(iRemoveStrategy);
 
             // Update location
             ShapeList.updateStartPoint(currentShape, newStartPoint);
@@ -96,7 +87,6 @@ public class MoveCommand implements ICommand {
             if (currentShape == selectedShape) {
                 setSelectedShape(currentShape);
             }
-//            setOriginalEndPoints(selectedShape.getLocation().getEndPoint());
 
             // Recreate Shape
             shape.recreate(iShapeStrategy);
@@ -159,12 +149,31 @@ public class MoveCommand implements ICommand {
         return originalEndPoints;
     }
 
-    private void setOriginalEndPoints(Point endPoints) {
-        this.originalEndPoints = endPoints;
-    }
-
     private void setSelectedShape(IShape shape) {
         this.selectedShape = shape;
+    }
+
+
+    public void undo() {
+        System.out.println("Undoing move");
+        // get moved shapes and its original positions
+        List<IShape> movedShapes = this.getMovedShapes();
+        Point endPoint = this.getOriginalEndPoint();
+        IShape selectedShape = this.getSelectedShape();
+        MoveCommand moveCommand = new MoveCommand(paintCanvas, endPoint, movedShapes, selectedShape);
+        UndoCommandHistory.add(moveCommand);
+        moveCommand.execute();
+    }
+
+    public void redo() {
+        System.out.println("Redoing move");
+        // get moved shapes and its original positions
+        List<IShape> movedShapes = this.getMovedShapes();
+        Point endPoint = this.getOriginalEndPoint();
+        IShape selectedShape = this.getSelectedShape();
+        MoveCommand moveCommand = new MoveCommand(paintCanvas, endPoint, movedShapes, selectedShape);
+        CommandHistory.add(moveCommand);
+        moveCommand.execute();
     }
 
 }

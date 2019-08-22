@@ -2,11 +2,7 @@ package controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import controller.command.DrawCommand;
-import controller.command.ICommand;
-import controller.command.MoveCommand;
-import controller.command.SelectCommand;
+import controller.command.*;
 import model.interfaces.IApplicationState;
 import model.persistence.CommandHistory;
 import model.persistence.Point;
@@ -45,7 +41,7 @@ public class MouseClickHandler extends MouseAdapter {
                 break;
 
             case SELECT:
-                command = new SelectCommand(applicationState.getStartPoint(), endPoint);
+                command = new SelectCommand(applicationState.getStartPoint(), endPoint, applicationState, paintCanvas);
                 break;
         }
         command.execute();

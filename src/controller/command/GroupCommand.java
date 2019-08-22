@@ -5,10 +5,11 @@ import model.persistence.UndoCommandHistory;
 import model.interfaces.IShape;
 import model.persistence.ShapeGroup;
 import model.persistence.Groups;
+
 import java.util.HashMap;
 import java.util.List;
 
-public class GroupCommand implements ICommand {
+public class GroupCommand implements ICommand, IUndoRedoCommand {
     private static final String commandName = "Group";
     private List<IShape> groupedShapes;
     private List<IShape> shapes;
@@ -63,6 +64,26 @@ public class GroupCommand implements ICommand {
 
     List<IShape> getGroupedShapes() {
         return groupedShapes;
+    }
+
+    public void undo() {
+        System.out.println("Undoing group");
+        // Get grouped shapes.
+        List<IShape> groupedShapes = this.getGroupedShapes();
+        // Now ungroup each shape
+        UngroupCommand ungroupCommand = new UngroupCommand(groupedShapes);
+        UndoCommandHistory.add(ungroupCommand);
+        ungroupCommand.execute();
+    }
+
+    public void redo() {
+        System.out.println("Redoing group");
+        // Get grouped shapes.
+        List<IShape> groupedShapes = this.getGroupedShapes();
+        // Now ungroup each shape
+        UngroupCommand ungroupCommand = new UngroupCommand(groupedShapes);
+        CommandHistory.add(ungroupCommand);
+        ungroupCommand.execute();
     }
 
 }
