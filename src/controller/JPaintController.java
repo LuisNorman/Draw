@@ -17,7 +17,6 @@ public class JPaintController implements IJPaintController {
         this.uiModule = uiModule;
         this.applicationState = applicationState;
         this.paintCanvas = paintCanvas;
-
     }
 
     @Override
@@ -26,7 +25,6 @@ public class JPaintController implements IJPaintController {
     }
 
     private void setupEvents() {
-
         uiModule.addEvent(EventName.CHOOSE_SHAPE, () -> applicationState.setActiveShape());
         uiModule.addEvent(EventName.CHOOSE_PRIMARY_COLOR, () -> applicationState.setActivePrimaryColor());
         uiModule.addEvent(EventName.CHOOSE_SECONDARY_COLOR, () -> applicationState.setActiveSecondaryColor());
@@ -35,7 +33,7 @@ public class JPaintController implements IJPaintController {
         uiModule.addEvent(EventName.DELETE, () -> new DeleteCommand(paintCanvas, SelectedShapes.getAll()).execute());
         uiModule.addEvent(EventName.COPY, () -> new CopyCommand().execute());
         uiModule.addEvent(EventName.PASTE, () -> new PasteCommand(paintCanvas, CopyCommand.getCopiedShapes()).execute());
-        uiModule.addEvent(EventName.OUTLINE, () -> new OutlineCommand(paintCanvas, applicationState));
+        uiModule.addEvent(EventName.OUTLINE, () -> new OutlineCommand(paintCanvas, applicationState).execute());
         uiModule.addEvent(EventName.GROUP, () -> new GroupCommand(SelectedShapes.getAll()).execute());
         uiModule.addEvent(EventName.UNGROUP, () -> new UngroupCommand(SelectedShapes.getAll()).execute());
         uiModule.addEvent(EventName.UNDO, () -> new UndoCommand(paintCanvas).execute());

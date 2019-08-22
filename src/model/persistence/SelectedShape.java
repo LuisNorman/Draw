@@ -2,11 +2,11 @@ package model.persistence;
 
 import model.ShapeType;
 import model.interfaces.IShape;
-import controller.Point;
+
 import java.util.List;
 
 public class SelectedShape {
-    static IShape selectedShape;
+    private static IShape selectedShape;
 
     public static void set(Point targetPoint) {
         List<IShape> shapeList = ShapeList.getShapeList();

@@ -1,7 +1,6 @@
 package controller.command;
 
-import controller.Point;
-import controller.command.ICommand;
+import model.persistence.Point;
 import model.interfaces.IShape;
 import model.persistence.*;
 

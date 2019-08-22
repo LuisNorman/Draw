@@ -8,7 +8,7 @@ import model.dialogs.DialogProvider;
 import model.interfaces.IApplicationState;
 import model.interfaces.IDialogProvider;
 import view.interfaces.IUiModule;
-import controller.Point;
+
 import java.io.Serializable;
 
 public class ApplicationState implements IApplicationState, Serializable {

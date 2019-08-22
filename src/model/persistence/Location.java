@@ -1,10 +1,8 @@
 package model.persistence;
 
-import controller.Point;
-
 public class Location  {
-    Point startPoint;
-    Point endPoint;
+    private Point startPoint;
+    private Point endPoint;
 
     public Location(Point startPoint, Point endPoint) {
         this.startPoint = startPoint;

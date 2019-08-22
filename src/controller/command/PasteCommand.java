@@ -1,11 +1,8 @@
 package controller.command;
 
 import controller.*;
-import model.persistence.Triangle;
-import model.persistence.Ellipse;
+import model.persistence.*;
 import model.interfaces.IShape;
-import model.persistence.Rectangle;
-import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
 
 import java.util.LinkedList;
@@ -28,35 +25,41 @@ public class PasteCommand implements ICommand {
             System.out.println("There are no shapes to paste.");
             return;
         }
-        for (IShape shape : shapesToPaste) {
+        for (IShape currentShape : shapesToPaste) {
             IShape newShape = null;
-            Point startPoint = shape.getLocation().getStartPoint();
-            Point endPoint = shape.getLocation().getEndPoint();
+            Point startPoint = currentShape.getLocation().getStartPoint();
+            Point endPoint = currentShape.getLocation().getEndPoint();
             int width = endPoint.getX()-startPoint.getX();
             int height = endPoint.getY()-startPoint.getY();
             Point newStartPoint = getNewStartPoint(startPoint, width*2+5);
             Point newEndPoint = getNewEndPoint(newStartPoint, width, height);
-            shape.setLocation(newStartPoint, newEndPoint);
-            Recreator recreator = new Recreator(paintCanvas, shape);
-            IRecreateStrategy iRecreateStrategy = null;
+            currentShape.setLocation(newStartPoint, newEndPoint);
+//            Recreator recreator = new Recreator(paintCanvas, currentShape);
+            Shape shape = new Shape(paintCanvas, currentShape);
+            IShapeStrategy iShapeStrategy = null;
+//            IRecreateStrategy iRecreateStrategy = null;
 
-            switch(shape.getShapeType()) {
+            switch(currentShape.getShapeType()) {
                 case TRIANGLE :
-                    newShape = new Triangle(shape);
-                    iRecreateStrategy = new RecreateTriangleStrategy();
+                    newShape = new Triangle(currentShape);
+                    iShapeStrategy = new TriangleStrategy();
+//                    iRecreateStrategy = new RecreateTriangleStrategy();
                     break;
 
                 case RECTANGLE :
-                    newShape = new Rectangle(shape);
-                    iRecreateStrategy = new RecreateRectangleStrategy();
+                    newShape = new Rectangle(currentShape);
+                    iShapeStrategy = new RectangleStrategy();
+//                    iRecreateStrategy = new RecreateRectangleStrategy();
                     break;
 
                 case ELLIPSE :
-                    newShape = new Ellipse(shape);
-                    iRecreateStrategy = new RecreateEllipseStrategy();
+                    newShape = new Ellipse(currentShape);
+                    iShapeStrategy = new EllipseStrategy();
+//                    iRecreateStrategy = new RecreateEllipseStrategy();
                     break;
             }
-            recreator.recreate(iRecreateStrategy);
+//            recreator.recreate(iRecreateStrategy);
+            shape.recreate(iShapeStrategy);
 
             newShape.setLocation(newStartPoint, newEndPoint);
             ShapeList.add(newShape);

@@ -4,7 +4,7 @@ import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
 import model.StartAndEndPointMode;
-import controller.Point;
+import model.persistence.Point;
 
 public interface IApplicationState {
     void setActiveShape();

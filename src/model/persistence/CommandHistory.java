@@ -1,4 +1,4 @@
-package controller;
+package model.persistence;
 
 import controller.command.ICommand;
 

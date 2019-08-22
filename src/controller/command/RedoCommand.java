@@ -1,8 +1,10 @@
 package controller.command;
 
-import controller.*;
 import model.interfaces.IShape;
+import model.persistence.CommandHistory;
+import model.persistence.Point;
 import model.persistence.ShapeGroup;
+import model.persistence.UndoCommandHistory;
 import view.interfaces.PaintCanvasBase;
 import java.util.HashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package controller;
+package model.persistence;
 
 public class Point {
 

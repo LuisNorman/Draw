@@ -1,6 +1,5 @@
 package model.persistence;
 
-import controller.Point;
 import model.interfaces.IShape;
 import java.util.ArrayList;
 

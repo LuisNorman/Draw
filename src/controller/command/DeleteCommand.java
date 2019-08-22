@@ -1,12 +1,9 @@
 package controller.command;
 
-import java.util.ArrayList;
 import java.util.List;
 import controller.*;
 import model.interfaces.IShape;
-import model.persistence.ShapeGroup;
-import model.persistence.Groups;
-import model.persistence.ShapeList;
+import model.persistence.*;
 import view.interfaces.PaintCanvasBase;
 
 public class DeleteCommand implements ICommand {
@@ -19,35 +16,29 @@ public class DeleteCommand implements ICommand {
         this.deletedShapes = deletedShapes;
     }
 
-    public DeleteCommand(PaintCanvasBase paintCanvas, IShape deletedShape) {
-        this.paintCanvas = paintCanvas;
-        this.deletedShapes = new ArrayList<>();
-        deletedShapes.add(deletedShape);
-    }
-
     @Override
     public void execute() {
         addShapesInGroup(deletedShapes);
-        for (IShape shape : deletedShapes) {
-            System.out.println("deleting "+shape.getShapeType()+" at"+shape.getLocation().getStartPoint().getX());
-            Remover remover = new Remover(paintCanvas, shape);
-            IRemoveStrategy iRemoveStrategy = null;
+        for (IShape currentShape : deletedShapes) {
+            System.out.println("deleting "+currentShape.getShapeType()+" at"+currentShape.getLocation().getStartPoint().getX());
+            Shape shape = new Shape(paintCanvas, currentShape);
+            IShapeStrategy iShapeStrategy = null;
 
-            switch(shape.getShapeType()) {
+            switch(currentShape.getShapeType()) {
                 case TRIANGLE:
-                    iRemoveStrategy = new RemoveTriangleStrategy();
+                    iShapeStrategy = new TriangleStrategy();
                     break;
 
                 case RECTANGLE:
-                    iRemoveStrategy = new RemoveRectangleStrategy();
+                    iShapeStrategy = new RectangleStrategy();
                     break;
 
                 case ELLIPSE:
-                    iRemoveStrategy = new RemoveEllipseStrategy();
+                    iShapeStrategy = new EllipseStrategy();
                     break;
             }
-            remover.remove(iRemoveStrategy);
-            ShapeList.remove(shape);
+            shape.remove(iShapeStrategy);
+            ShapeList.remove(currentShape);
             // Not sure if I should delete the shape from the selected shapes list
             // whenever an item is deleted from shape list.
 //            SelectedShapes.remove(shape);

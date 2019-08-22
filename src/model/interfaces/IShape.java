@@ -4,7 +4,7 @@ import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
 import view.interfaces.PaintCanvasBase;
-import controller.Point;
+import model.persistence.Point;
 import java.awt.Color;
 
 

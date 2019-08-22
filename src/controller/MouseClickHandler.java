@@ -8,6 +8,8 @@ import controller.command.ICommand;
 import controller.command.MoveCommand;
 import controller.command.SelectCommand;
 import model.interfaces.IApplicationState;
+import model.persistence.CommandHistory;
+import model.persistence.Point;
 import model.persistence.SelectedShape;
 import model.persistence.SelectedShapes;
 import view.interfaces.PaintCanvasBase;

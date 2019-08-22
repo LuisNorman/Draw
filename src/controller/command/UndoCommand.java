@@ -1,5 +1,4 @@
 package controller.command;
-import controller.*;
 import model.interfaces.IShape;
 import model.persistence.*;
 import view.interfaces.PaintCanvasBase;
@@ -94,36 +93,6 @@ public class UndoCommand implements ICommand {
                 DrawCommand drawCommand = new DrawCommand(paintCanvas, deletedShapes);
                 UndoCommandHistory.add(drawCommand);
                 drawCommand.execute();
-
-//                for (IShape currentDeletedShape: deletedShapes) {
-//                    System.out.println("Redrawing "+currentDeletedShape.getApplicationState().getActiveShapeType());
-//                    DrawCommand drawCommand = new DrawCommand(currentDeletedShape.getApplicationState(), paintCanvas);
-//                    UndoCommandHistory.add(drawCommand);
-//                    drawCommand.execute();
-//                }
-
-
-
-                // Now redraw the deleted shapes
-//                for(IShape currentDeletedShape: deletedShapes) {
-//                    Recreator recreator = new Recreator(paintCanvas, currentDeletedShape);
-//                    IRecreateStrategy iRecreateStrategy = null;
-//                    switch(currentDeletedShape.getShapeType()) {
-//                        case TRIANGLE :
-//                            iRecreateStrategy = new RecreateTriangleStrategy();
-//                            break;
-//
-//                        case RECTANGLE :
-//                            iRecreateStrategy = new RecreateRectangleStrategy();
-//                            break;
-//
-//                        case ELLIPSE :
-//                            iRecreateStrategy = new RecreateEllipseStrategy();
-//                            break;
-//                    }
-//                    recreator.recreate(iRecreateStrategy);
-//                    ShapeList.add(currentDeletedShape);
-//                }
                 break;
 
             default:

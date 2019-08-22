@@ -5,7 +5,7 @@ import controller.command.ICommand;
 public class NullCommand implements ICommand {
     @Override
     public void execute() {
-        System.out.println("Please select a command");
+        System.out.println("No command selected");
     }
 
     @Override

@@ -1,7 +1,7 @@
 package controller.command;
 
-import controller.CommandHistory;
-import controller.UndoCommandHistory;
+import model.persistence.CommandHistory;
+import model.persistence.UndoCommandHistory;
 import model.interfaces.IShape;
 import model.persistence.ShapeGroup;
 import model.persistence.Groups;

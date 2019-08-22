@@ -1,6 +1,5 @@
 package model.persistence;
 
-import controller.Point;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;

@@ -1,7 +1,6 @@
 package controller.command;
 
 import controller.*;
-import controller.command.ICommand;
 import model.ShapeShadingType;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
@@ -24,40 +23,44 @@ public class OutlineCommand implements ICommand {
         List<IShape> selectedShapes = SelectedShapes.getAll();
         addShapesInGroup(selectedShapes);
         List<IShape> shapeList = ShapeList.getShapeList();
-        for (IShape shape : selectedShapes) {
+        for (IShape currentShape : selectedShapes) {
+            System.out.println("Outlining "+currentShape.getShapeType());
             IShape iShape = null;
-            Point startPoint = shape.getLocation().getStartPoint();
-            Point endPoint = shape.getLocation().getEndPoint();
-            Outliner outliner = new Outliner(paintCanvas, startPoint, endPoint, shape, applicationState);
-            IOutlineStrategy iOutlineStrategy = null;
-            switch(shape.getShapeType()) {
+            Point startPoint = currentShape.getLocation().getStartPoint();
+            Point endPoint = currentShape.getLocation().getEndPoint();
+            Shape shape = new Shape(paintCanvas, currentShape, startPoint, endPoint, applicationState);
+            IShapeStrategy iShapeStrategy = null;
+
+            switch(currentShape.getShapeType()) {
+
                 case TRIANGLE :
-                    iOutlineStrategy = new OutlineTriangleStrategy();
-                    if (!shapeList.contains(shape)) {
-                        iShape = new Triangle(shape);
+                    iShapeStrategy = new TriangleStrategy();
+                    if (!shapeList.contains(currentShape)) {
+                        iShape = new Triangle(currentShape);
                     }
                     break;
 
                 case RECTANGLE :
-                    iOutlineStrategy = new OutlineRectangleStrategy();
-                    if (!shapeList.contains(shape)) {
-                        iShape = new Rectangle(shape);
+                    iShapeStrategy = new RectangleStrategy();
+                    if (!shapeList.contains(currentShape)) {
+                        iShape = new Rectangle(currentShape);
                     }
                     break;
 
                 case ELLIPSE :
-                    iOutlineStrategy = new OutlineEllipseStrategy();
-                    if (!shapeList.contains(shape)) {
-                        iShape = new Ellipse(shape);
+                    iShapeStrategy = new EllipseStrategy();
+
+                    if (!shapeList.contains(currentShape)) {
+                        iShape = new Ellipse(currentShape);
                     }
                     break;
             }
-            if (!shapeList.contains(shape) && iShape != null) {
+            if (!shapeList.contains(currentShape) && iShape != null) {
                 iShape.setShapeShadingType(ShapeShadingType.OUTLINE);
                 shapeList.add(iShape);
             }
 
-            outliner.outline(iOutlineStrategy);
+            shape.outline(iShapeStrategy);
         }
     }
 

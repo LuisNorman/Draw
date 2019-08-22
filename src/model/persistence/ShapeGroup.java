@@ -4,7 +4,7 @@ import model.interfaces.IShape;
 import java.util.List;
 
 public class ShapeGroup {
-    List<IShape> shapeGroup;
+    private List<IShape> shapeGroup;
 
     public ShapeGroup(List<IShape> selectedShapes) {
         this.shapeGroup = selectedShapes;

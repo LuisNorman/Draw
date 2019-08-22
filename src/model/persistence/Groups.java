@@ -5,7 +5,7 @@ import java.util.List;
 
 // Groups: Holds all shape groups
 public class Groups {
-    static List<ShapeGroup> groups = new LinkedList<>();
+    private static List<ShapeGroup> groups = new LinkedList<>();
 
     public static void add(ShapeGroup shapeGroup) {
         groups.add(shapeGroup);

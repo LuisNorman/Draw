@@ -3,6 +3,7 @@ package controller.command;
 import controller.*;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
+import model.persistence.Shape;
 import model.persistence.ShapeFactory;
 import model.persistence.ShapeList;
 import view.interfaces.PaintCanvasBase;
@@ -59,24 +60,25 @@ public class DrawCommand implements ICommand {
         // Check if we're drawing previous shapes
         else {
             for(IShape currentShape: shapes) {
-                Recreator recreator = new Recreator(paintCanvas, currentShape);
-                IRecreateStrategy iRecreateStrategy = null;
+                Shape shape = new Shape(paintCanvas, currentShape);
+                IShapeStrategy iShapeStrategy = null;
+
                 switch(currentShape.getShapeType()) {
                     case TRIANGLE :
-                        iRecreateStrategy = new RecreateTriangleStrategy();
+                        iShapeStrategy = new TriangleStrategy();
                         break;
 
                     case RECTANGLE :
-                        iRecreateStrategy = new RecreateRectangleStrategy();
+                        iShapeStrategy = new RectangleStrategy();
                         break;
 
                     case ELLIPSE :
-                        iRecreateStrategy = new RecreateEllipseStrategy();
+                        iShapeStrategy = new EllipseStrategy();
                         break;
-                    }
-                    recreator.recreate(iRecreateStrategy);
-                    ShapeList.add(currentShape);
-                    addShapesToList(currentShape);
+                }
+                shape.recreate(iShapeStrategy);
+                ShapeList.add(currentShape);
+                addShapesToList(currentShape);
             }
         }
     }

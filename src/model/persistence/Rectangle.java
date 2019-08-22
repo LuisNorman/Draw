@@ -8,7 +8,6 @@ import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import controller.Point;
 
 
 public class Rectangle implements IShape {
