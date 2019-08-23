@@ -53,7 +53,7 @@ public class Redo implements ICommand{
             case "Delete":
                 System.out.println("Undoing delete");
                 DeleteCommand mostRecentDeleteCommand = (DeleteCommand)lastCommand;
-                mostRecentDeleteCommand.undo();
+                mostRecentDeleteCommand.redo();
                 break;
 
             default:
